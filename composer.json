@@ -1,0 +1,17 @@
+{
+    "name": "goldfinch/toolkit",
+    "description": "",
+    "type": "library",
+    "keywords": [],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Art Karasev",
+            "email": "art.karasev@proton.me"
+        }
+    ],
+    "require": {},
+    "autoload": {},
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
