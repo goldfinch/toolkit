@@ -1,4 +1,6 @@
 import type { AppConfig } from 'nuxt/schema'
+import { computed } from 'vue'
+import { useAppConfig } from '../app.config'
 
 export function useNuiDefaultProperty<
   T extends Record<string, unknown>,

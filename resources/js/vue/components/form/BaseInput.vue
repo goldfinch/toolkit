@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useNuiDefaultProperty } from '../../composables/default-property'
+import { useNinjaId } from '../../composables/input-id'
+import { Icon } from '@iconify/vue';
+import BasePlaceload from '../base/BasePlaceload.vue'
+import BaseInputHelpText from '../form/BaseInputHelpText.vue'
+
 defineOptions({
   inheritAttrs: false,
 })
