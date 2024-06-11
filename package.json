@@ -1,22 +1,29 @@
 {
-  "name": "toolkit",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@gf1:goldfinch/toolkit.git"
-  },
-  "keywords": [],
-  "author": "Art Karasev <art.karasev@proton.me>",
-  "license": "ISC",
-  "devDependencies": {
-    "@iconify/vue": "^4.1.2",
-    "@vee-validate/zod": "^4.12.4",
-    "vee-validate": "^4.12.4",
-    "zod": "^3.22.4"
-  }
+    "name": "toolkit",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git@gf1:goldfinch/toolkit.git"
+    },
+    "keywords": [],
+    "author": "Art Karasev <art.karasev@proton.me>",
+    "license": "ISC",
+    "devDependencies": {
+        "@iconify/vue": "^4.1.2",
+        "@vee-validate/zod": "^4.12.4",
+        "axios": "^1.7.2",
+        "moveto": "^1.8.2",
+        "recaptcha-v3": "^1.10.0",
+        "vee-validate": "^4.12.4",
+        "zod": "^3.22.4"
+    },
+    "dependencies": {
+        "@vueuse/core": "^10.10.0",
+        "vue": "^3.4.27"
+    }
 }

@@ -1,68 +1,68 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useNuiDefaultProperty } from '../../composables/default-property'
-import { useNinjaId } from '../../composables/input-id'
-import { Icon } from '@iconify/vue';
-import BasePlaceload from '../base/BasePlaceload.vue'
-import BaseInputHelpText from '../form/BaseInputHelpText.vue'
+import { ref, computed } from "@rootnode/vue";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { useNinjaId } from "../../composables/input-id";
+import { Icon } from "@rootnode/@iconify/vue";
+import BasePlaceload from "../base/BasePlaceload.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The type of input.
      */
-    type?: string
+    type?: string;
 
     /**
      * The label to display for the input.
      */
-    label?: string
+    label?: string;
 
     /**
      * If the label should be floating.
      */
-    labelFloat?: boolean
+    labelFloat?: boolean;
 
     /**
      * The icon to display for the input.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * The placeholder to display for the input.
      */
-    placeholder?: string
+    placeholder?: string;
 
     /**
      * An error message or boolean value indicating whether the input is in an error state.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * Whether the color of the input should change when it is focused.
      */
-    colorFocus?: boolean
+    colorFocus?: boolean;
 
     /**
      * Whether the input is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * The contrast of the input.
      *
      * @default 'default'
      */
-    contrast?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    contrast?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * The radius of the input.
@@ -70,14 +70,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the input.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg' | 'xl'
+    size?: "sm" | "md" | "lg" | "xl";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, input, addon, error, and icon elements.
@@ -86,42 +86,42 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the outer element.
        */
-      outer?: string | string[]
+      outer?: string | string[];
 
       /**
        * CSS classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
+      input?: string | string[];
 
       /**
        * CSS classes to apply to the addon element.
        */
-      addon?: string | string[]
+      addon?: string | string[];
 
       /**
        * CSS classes to apply to the error element.
        */
-      error?: string | string[]
+      error?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
-    }
+      icon?: string | string[];
+    };
   }>(),
   {
     id: undefined,
-    type: 'text',
+    type: "text",
     rounded: undefined,
     size: undefined,
     contrast: undefined,
@@ -130,57 +130,57 @@ const props = withDefaults(
     placeholder: undefined,
     error: false,
     classes: () => ({}),
-  },
-)
+  }
+);
 
 function looseToNumber(val: any) {
-  const n = Number.parseFloat(val)
-  return Number.isNaN(n) ? val : n
+  const n = Number.parseFloat(val);
+  return Number.isNaN(n) ? val : n;
 }
 
 const [modelValue, modelModifiers] = defineModel<
   string | number,
-  'lazy' | 'trim' | 'number'
+  "lazy" | "trim" | "number"
 >({
   set(value) {
     if (modelModifiers.number) {
-      return looseToNumber(value)
-    } else if (modelModifiers.trim && typeof value === 'string') {
-      return value.trim()
+      return looseToNumber(value);
+    } else if (modelModifiers.trim && typeof value === "string") {
+      return value.trim();
     }
 
-    return value
+    return value;
   },
-})
+});
 
-const contrast = useNuiDefaultProperty(props, 'BaseInput', 'contrast')
-const rounded = useNuiDefaultProperty(props, 'BaseInput', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseInput', 'size')
+const contrast = useNuiDefaultProperty(props, "BaseInput", "contrast");
+const rounded = useNuiDefaultProperty(props, "BaseInput", "rounded");
+const size = useNuiDefaultProperty(props, "BaseInput", "size");
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 const radiuses = {
-  none: '',
-  sm: 'nui-input-rounded-sm',
-  md: 'nui-input-rounded-md',
-  lg: 'nui-input-rounded-lg',
-  full: 'nui-input-rounded-full',
-}
+  none: "",
+  sm: "nui-input-rounded-sm",
+  md: "nui-input-rounded-md",
+  lg: "nui-input-rounded-lg",
+  full: "nui-input-rounded-full",
+};
 
 const sizes = {
-  sm: 'nui-input-sm',
-  md: 'nui-input-md',
-  lg: 'nui-input-lg',
-  xl: 'nui-input-xl',
-}
+  sm: "nui-input-sm",
+  md: "nui-input-md",
+  lg: "nui-input-lg",
+  xl: "nui-input-xl",
+};
 
 const contrasts = {
-  default: 'nui-input-default',
-  'default-contrast': 'nui-input-default-contrast',
-  muted: 'nui-input-muted',
-  'muted-contrast': 'nui-input-muted-contrast',
-}
+  default: "nui-input-default",
+  "default-contrast": "nui-input-default-contrast",
+  muted: "nui-input-muted",
+  "muted-contrast": "nui-input-muted-contrast",
+};
 
 defineExpose({
   /**
@@ -192,26 +192,26 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 
 const placeholder = computed(() => {
   if (props.loading) {
-    return
+    return;
   }
   if (props.labelFloat) {
-    return props.label
+    return props.label;
   }
 
-  return props.placeholder
-})
+  return props.placeholder;
+});
 
 if (import.meta.dev) {
-  const slots = useSlots()
-  if (props.labelFloat && 'label' in slots) {
+  const slots = useSlots();
+  if (props.labelFloat && "label" in slots) {
     // eslint-disable-next-line no-console
     console.warn(
-      '[ninja-ui][base-input] The "label-float" property is not compatible with the label slot, use the label property instead.',
-    )
+      '[ninja-ui][base-input] The "label-float" property is not compatible with the label slot, use the label property instead.'
+    );
   }
 }
 </script>
