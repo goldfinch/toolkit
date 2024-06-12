@@ -1,65 +1,71 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { useNinjaId } from "../../composables/input-id";
+import { ref, watchEffect } from "@rootnode/vue";
+import IconIndeterminate from "../icon/IconIndeterminate.vue";
+import IconCheck from "../icon/IconCheck.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * Defines the value of the checkbox when it's checked.
      */
-    value?: T
+    value?: T;
 
     /**
      * The value to set when the checkbox is checked.
      */
-    trueValue?: T
+    trueValue?: T;
 
     /**
      * The value to set when the checkbox is unchecked.
      */
-    falseValue?: T
+    falseValue?: T;
 
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The label to display for the checkbox.
      */
-    label?: string
+    label?: string;
 
     /**
      * An error message to display below the checkbox label.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * Whether the checkbox is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * Whether the checkbox is in indeterminate state.
      */
-    indeterminate?: boolean
+    indeterminate?: boolean;
 
     /** The color of the checkbox.
      *
      * @default 'default'
      */
     color?:
-      | 'default'
-      | 'muted'
-      | 'light'
-      | 'dark'
-      | 'black'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
+      | "default"
+      | "muted"
+      | "light"
+      | "dark"
+      | "black"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger";
 
     /**
      * The radius of the checkbox.
@@ -67,7 +73,7 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, and input elements.
@@ -76,18 +82,18 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
-    }
+      input?: string | string[];
+    };
   }>(),
   {
     value: undefined,
@@ -95,51 +101,51 @@ const props = withDefaults(
     falseValue: false as any,
     id: undefined,
     label: undefined,
-    error: '',
+    error: "",
     rounded: undefined,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
 defineSlots<{
-  default(): any
-}>()
+  default(): any;
+}>();
 
-const [modelValue] = defineModel<T | T[]>()
+const [modelValue] = defineModel<T | T[]>();
 
-const color = useNuiDefaultProperty(props, 'BaseCheckbox', 'color')
-const rounded = useNuiDefaultProperty(props, 'BaseCheckbox', 'rounded')
+const color = useNuiDefaultProperty(props, "BaseCheckbox", "color");
+const rounded = useNuiDefaultProperty(props, "BaseCheckbox", "rounded");
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 const radiuses = {
-  none: '',
-  sm: 'nui-checkbox-rounded-sm',
-  md: 'nui-checkbox-rounded-md',
-  lg: 'nui-checkbox-rounded-lg',
-  full: 'nui-checkbox-rounded-full',
-}
+  none: "",
+  sm: "nui-checkbox-rounded-sm",
+  md: "nui-checkbox-rounded-md",
+  lg: "nui-checkbox-rounded-lg",
+  full: "nui-checkbox-rounded-full",
+};
 
 const colors = {
-  default: 'nui-checkbox-default',
-  muted: 'nui-checkbox-muted',
-  light: 'nui-checkbox-light',
-  dark: 'nui-checkbox-dark',
-  black: 'nui-checkbox-black',
-  primary: 'nui-checkbox-primary',
-  info: 'nui-checkbox-info',
-  success: 'nui-checkbox-success',
-  warning: 'nui-checkbox-warning',
-  danger: 'nui-checkbox-danger',
-}
+  default: "nui-checkbox-default",
+  muted: "nui-checkbox-muted",
+  light: "nui-checkbox-light",
+  dark: "nui-checkbox-dark",
+  black: "nui-checkbox-black",
+  primary: "nui-checkbox-primary",
+  info: "nui-checkbox-info",
+  success: "nui-checkbox-success",
+  warning: "nui-checkbox-warning",
+  danger: "nui-checkbox-danger",
+};
 
 watchEffect(() => {
   if (inputRef.value) {
-    inputRef.value.indeterminate = props.indeterminate ?? false
+    inputRef.value.indeterminate = props.indeterminate ?? false;
   }
-})
+});
 
 defineExpose({
   /**
@@ -151,7 +157,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>
@@ -180,7 +186,7 @@ defineExpose({
       />
       <div class="nui-checkbox-inner"></div>
       <IconCheck class="nui-icon-check" />
-      <IconIndeterminate class="nui-icon-indeterminate" />
+      <!-- <IconIndeterminate class="nui-icon-indeterminate" /> -->
     </div>
     <div class="nui-checkbox-label-wrapper">
       <label
