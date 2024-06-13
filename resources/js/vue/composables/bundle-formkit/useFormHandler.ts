@@ -21,6 +21,7 @@ export default function useFormHandler(cfg) {
       const token = await recaptcha.value.execute(cfg.action);
 
       data.token = token;
+      data.segment_id = cfg.supplies.id;
 
       const csrfToken = document.head.querySelector('meta[name="csrf-token"]');
 
