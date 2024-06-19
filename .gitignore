@@ -4,3 +4,4 @@ composer.lock
 *.js.map
 *.css.map
 yarn-error.log
+node_modules
