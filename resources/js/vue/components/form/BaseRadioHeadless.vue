@@ -1,46 +1,49 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import { ref } from "@rootnode/vue";
+import { useNinjaId } from "../../composables/input-id";
+
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The value of the radio input.
      */
-    value?: T
+    value?: T;
 
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The name of the radio input.
      */
-    name?: string
+    name?: string;
 
     /**
      * The label for the radio input.
      */
-    label?: string
+    label?: string;
   }>(),
   {
     value: undefined,
     id: undefined,
     name: undefined,
     label: undefined,
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<T>()
+const [modelValue] = defineModel<T>();
 
 defineSlots<{
-  default(props: { value: T | undefined }): any
-}>()
+  default(props: { value: T | undefined }): any;
+}>();
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 defineExpose({
   /**
@@ -52,7 +55,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>
