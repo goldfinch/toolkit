@@ -1,24 +1,26 @@
 <script setup lang="ts">
+import IconCheck from "../icon/IconCheck.vue";
+
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * Accessible label for the switch.
      */
-    label?: string
+    label?: string;
 
     /**
      * The sublabel of the switch.
      */
-    sublabel?: string
+    sublabel?: string;
 
     /**
      * Main color of the switch.
@@ -26,13 +28,13 @@ const props = withDefaults(
      * @default 'primary'
      */
     color?:
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'dark'
-      | 'black'
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "dark"
+      | "black";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -41,33 +43,33 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the outer element.
        */
-      outer?: string | string[]
+      outer?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
+      input?: string | string[];
 
       /**
        * CSS classes to apply to the handle element.
        */
-      handle?: string | string[]
+      handle?: string | string[];
 
       /**
        * CSS classes to apply to the track element.
        */
-      track?: string | string[]
+      track?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
-    }
+      icon?: string | string[];
+    };
   }>(),
   {
     id: undefined,
@@ -75,25 +77,25 @@ const props = withDefaults(
     sublabel: undefined,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<boolean>()
+const [modelValue] = defineModel<boolean>();
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
-const color = useNuiDefaultProperty(props, 'BaseSwitchBall', 'color')
+const color = useNuiDefaultProperty(props, "BaseSwitchBall", "color");
 
 const colors = {
-  primary: 'nui-switch-ball-primary',
-  info: 'nui-switch-ball-info',
-  success: 'nui-switch-ball-success',
-  warning: 'nui-switch-ball-warning',
-  danger: 'nui-switch-ball-danger',
-  dark: 'nui-switch-ball-dark',
-  black: 'nui-switch-ball-black',
-}
+  primary: "nui-switch-ball-primary",
+  info: "nui-switch-ball-info",
+  success: "nui-switch-ball-success",
+  warning: "nui-switch-ball-warning",
+  danger: "nui-switch-ball-danger",
+  dark: "nui-switch-ball-dark",
+  black: "nui-switch-ball-black",
+};
 
 defineExpose({
   /**
@@ -105,7 +107,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>

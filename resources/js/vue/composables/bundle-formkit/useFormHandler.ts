@@ -90,7 +90,7 @@ export default function useFormHandler(cfg) {
                     }
                   }
 
-                  setTimeout(() => moveTo.move(moveTarget), 250);
+                  setTimeout(() => moveTo.move(moveTarget, { tolerance: 100 }), 250);
                 }
               }
             } else {

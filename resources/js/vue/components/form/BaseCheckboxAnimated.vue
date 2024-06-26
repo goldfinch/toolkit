@@ -1,44 +1,46 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import IconCheckCircle from "../icon/IconCheckCircle.vue";
+
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The value of the component.
      */
-    value?: T
+    value?: T;
 
     /**
      * The value to set when the component is checked.
      */
-    trueValue?: T
+    trueValue?: T;
 
     /**
      * The value to set when the component is unchecked.
      */
-    falseValue?: T
+    falseValue?: T;
 
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /** The color of the checkbox.
      *
      * @default 'primary'
      */
     color?:
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'muted'
-      | 'light'
-      | 'dark'
-      | 'black'
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "muted"
+      | "light"
+      | "dark"
+      | "black";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, and input elements.
@@ -47,18 +49,18 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
-    }
+      input?: string | string[];
+    };
   }>(),
   {
     value: undefined,
@@ -71,102 +73,102 @@ const props = withDefaults(
       label: [],
       input: [],
     }),
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<T | T[]>()
+const [modelValue] = defineModel<T | T[]>();
 
-const id = useNinjaId(() => props.id)
+const id = useNinjaId(() => props.id);
 
-const color = useNuiDefaultProperty(props, 'BaseCheckboxAnimated', 'color')
+const color = useNuiDefaultProperty(props, "BaseCheckboxAnimated", "color");
 
-const element = ref<HTMLElement>()
-const inputRef = ref<HTMLInputElement>()
-const innerElement = ref<HTMLElement>()
+const element = ref<HTMLElement>();
+const inputRef = ref<HTMLInputElement>();
+const innerElement = ref<HTMLElement>();
 const checked = computed(() => {
   if (modelValue.value === props.trueValue) {
-    return true
+    return true;
   }
   if (modelValue.value === props.falseValue) {
-    return false
+    return false;
   }
 
   return props.value === undefined
     ? false
     : Array.isArray(modelValue.value)
-      ? modelValue.value.includes(props.value)
-      : modelValue.value === props.value
-})
+    ? modelValue.value.includes(props.value)
+    : modelValue.value === props.value;
+});
 
 const colors = {
-  primary: 'text-primary-500',
-  info: 'text-info-500',
-  success: 'text-success-500',
-  warning: 'text-warning-500',
-  danger: 'text-danger-500',
-  light: 'text-light-100',
-  muted: 'text-muted-400',
-  dark: 'text-muted-900 dark:text-muted-100',
-  black: 'text-black dark:text-white',
-}
+  primary: "text-primary-500",
+  info: "text-info-500",
+  success: "text-success-500",
+  warning: "text-warning-500",
+  danger: "text-danger-500",
+  light: "text-light-100",
+  muted: "text-muted-400",
+  dark: "text-muted-900 dark:text-muted-100",
+  black: "text-black dark:text-white",
+};
 
-const isChecked = ref(false)
-const isUnchecked = ref(true)
-const isOpaque = ref(false)
+const isChecked = ref(false);
+const isUnchecked = ref(true);
+const isOpaque = ref(false);
 
 function change() {
   if (Array.isArray(modelValue.value)) {
-    const values = [...modelValue.value]
-    const trueValue = props.value ?? props.trueValue
+    const values = [...modelValue.value];
+    const trueValue = props.value ?? props.trueValue;
     if (trueValue === undefined) {
-      return
+      return;
     }
 
     if (checked.value) {
-      values.splice(values.indexOf(trueValue), 1)
+      values.splice(values.indexOf(trueValue), 1);
     } else {
-      values.push(trueValue)
+      values.push(trueValue);
     }
 
-    modelValue.value = values
-    return
+    modelValue.value = values;
+    return;
   }
 
   if (modelValue.value === props.trueValue) {
-    modelValue.value = props.falseValue
-    return
+    modelValue.value = props.falseValue;
+    return;
   }
 
-  modelValue.value = props.trueValue
+  modelValue.value = props.trueValue;
 }
 
 watchEffect(() => {
-  let timeout: ReturnType<typeof setTimeout>
+  let timeout: ReturnType<typeof setTimeout>;
 
   if (checked.value) {
-    isChecked.value = true
-    isOpaque.value = true
+    isChecked.value = true;
+    isOpaque.value = true;
 
     if (import.meta.browser) {
       timeout = setTimeout(() => {
-        isUnchecked.value = false
-      }, 150)
+        isUnchecked.value = false;
+      }, 150);
     }
   } else {
-    isUnchecked.value = true
-    isChecked.value = false
+    isUnchecked.value = true;
+    isChecked.value = false;
 
     if (import.meta.browser) {
       timeout = setTimeout(() => {
-        isOpaque.value = false
-      }, 150)
+        isOpaque.value = false;
+      }, 150);
     }
   }
 
   onScopeDispose(() => {
-    if (timeout) clearTimeout(timeout)
-  })
-})
+    if (timeout) clearTimeout(timeout);
+  });
+});
 </script>
 
 <template>

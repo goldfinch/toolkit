@@ -49,7 +49,7 @@ const useFormBuilder = (props) => {
 
       await nextTick();
 
-      setTimeout(() => moveTo.move(message), 250);
+      setTimeout(() => moveTo.move(message, { tolerance: 100 }), 250);
     }
 
     // const validations = getValidationMessages(node)
