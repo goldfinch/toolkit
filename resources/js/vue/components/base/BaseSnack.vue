@@ -1,34 +1,36 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The text to display in the snackbar.
      */
-    label?: string
+    label?: string;
 
     /**
      * An optional icon to display in the snackbar.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * An optional image to display in the snackbar.
      */
-    image?: string
+    image?: string;
 
     /**
      * The color of snack.
      *
      * @default 'default'
      */
-    color?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    color?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * The size of the snack.
      *
      * @default 'md'
      */
-    size?: 'xs' | 'sm' | 'md'
+    size?: "xs" | "sm" | "md";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -37,58 +39,58 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
+      icon?: string | string[];
 
       /**
        * CSS classes to apply to the img element.
        */
-      img?: string | string[]
+      img?: string | string[];
 
       /**
        * CSS classes to apply to the text element.
        */
-      text?: string | string[]
+      text?: string | string[];
 
       /**
        * CSS classes to apply to the button element.
        */
-      button?: string | string[]
-    }
+      button?: string | string[];
+    };
   }>(),
   {
     size: undefined,
     color: undefined,
-    label: '',
+    label: "",
     icon: undefined,
     image: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
 const emit = defineEmits<{
-  delete: []
-}>()
+  delete: [];
+}>();
 
-const color = useNuiDefaultProperty(props, 'BaseSnack', 'color')
-const size = useNuiDefaultProperty(props, 'BaseSnack', 'size')
+const color = useNuiDefaultProperty(props, "BaseSnack", "color");
+const size = useNuiDefaultProperty(props, "BaseSnack", "size");
 
 const sizes = {
-  xs: 'nui-snack-xs',
-  sm: 'nui-snack-sm',
-  md: 'nui-snack-md',
-}
+  xs: "nui-snack-xs",
+  sm: "nui-snack-sm",
+  md: "nui-snack-md",
+};
 
 const colors = {
-  default: 'nui-snack-default',
-  'default-contrast': 'nui-snack-default-contrast',
-  muted: 'nui-snack-muted',
-  'muted-contrast': 'nui-snack-muted-contrast',
-}
+  default: "nui-snack-default",
+  "default-contrast": "nui-snack-default-contrast",
+  muted: "nui-snack-muted",
+  "muted-contrast": "nui-snack-muted-contrast",
+};
 </script>
 
 <template>
@@ -107,7 +109,7 @@ const colors = {
       :class="props.classes?.icon"
     >
       <slot name="icon">
-        <Icon :name="props.icon" class="nui-snack-icon-inner" />
+        <Icon :icon="props.icon" class="nui-snack-icon-inner" />
       </slot>
     </div>
     <div

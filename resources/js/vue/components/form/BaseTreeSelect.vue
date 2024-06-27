@@ -1,24 +1,27 @@
 <script setup lang="ts">
+import { watch, computed, ref } from "@rootnode/vue";
+import { Icon } from "@rootnode/@iconify/vue";
+
 interface TreeViewItemTreeLeaf {
-  item: any
+  item: any;
 }
 
 interface TreeViewItemTreeChildren {
-  item: any
-  open?: boolean
+  item: any;
+  open?: boolean;
   // eslint-disable-next-line no-use-before-define
-  children?: TreeViewTreeSource
+  children?: TreeViewTreeSource;
 }
 
-type TreeViewItemNode = TreeViewItemTreeLeaf | TreeViewItemTreeChildren
+type TreeViewItemNode = TreeViewItemTreeLeaf | TreeViewItemTreeChildren;
 type TreeViewTreeSource =
   | TreeViewItemNode[]
-  | (() => Promise<TreeViewItemNode[]>)
+  | (() => Promise<TreeViewItemNode[]>);
 
 interface TreeViewSubtreeState {
-  tree: TreeViewItemNode[]
-  pending: boolean
-  loaded: boolean
+  tree: TreeViewItemNode[];
+  pending: boolean;
+  loaded: boolean;
 }
 
 const props = withDefaults(
@@ -26,33 +29,33 @@ const props = withDefaults(
     /**
      * The tree items
      */
-    children?: TreeViewTreeSource
+    children?: TreeViewTreeSource;
     /**
      * Custom icons to use for the component.
      */
     icons?: {
-      open?: string
-      closed?: string
-      item?: string
-      pending?: string
-      empty?: string
-    }
+      open?: string;
+      closed?: string;
+      item?: string;
+      pending?: string;
+      empty?: string;
+    };
     /**
      * Display a line between items of the same level.
      */
     treeline?:
       | boolean
       | {
-          offset?: string
-          minLevel?: number
-        }
+          offset?: string;
+          minLevel?: number;
+        };
     /**
      * Translation strings.
      */
     i18n?: {
-      pending: string
-      empty: string
-    }
+      pending: string;
+      empty: string;
+    };
 
     /**
      * Optional CSS classes to apply to the wrapper, label, and input elements.
@@ -61,123 +64,123 @@ const props = withDefaults(
       /**
        * Classes applied to the icon when the node is pending.
        */
-      pendingIcon?: string | string[]
+      pendingIcon?: string | string[];
       /**
        * Classes applied to the icon when the node is empty.
        */
-      emptyIcon?: string | string[]
+      emptyIcon?: string | string[];
       /**
        * Classes applied to the icon when the node have children.
        */
-      treeIcon?: string | string[]
+      treeIcon?: string | string[];
       /**
        * Classes applied to the icon when the node have no children.
        */
-      itemIcon?: string | string[]
+      itemIcon?: string | string[];
       /**
        * Classes applied to the treeline.
        */
-      treeline?: string | string[]
+      treeline?: string | string[];
       /**
        * Classes applied to the inner checkbox element.
        *
        * @see [BaseCheckbox]
        */
-      checkbox?: any
-    }
+      checkbox?: any;
+    };
     /**
      * @internal
      */
-    level?: number
+    level?: number;
     /**
      * @internal
      */
-    parent?: any
+    parent?: any;
   }>(),
   {
     icons: () => ({
-      open: 'lucide:minus',
-      closed: 'lucide:plus',
-      item: '',
-      pending: '',
-      empty: '',
+      open: "lucide:minus",
+      closed: "lucide:plus",
+      item: "",
+      pending: "",
+      empty: "",
     }),
     classes: () => ({
-      pendingIcon: '',
-      emptyIcon: '',
-      treeIcon: '',
-      itemIcon: '',
-      treeline: 'border-muted-300 dark:border-muted-700',
+      pendingIcon: "",
+      emptyIcon: "",
+      treeIcon: "",
+      itemIcon: "",
+      treeline: "border-muted-300 dark:border-muted-700",
       checkbox: {
-        wrapper: 'text-primary-500 scale-[0.8] me-1',
+        wrapper: "text-primary-500 scale-[0.8] me-1",
       },
     }),
     children: undefined,
     treeline: false,
     i18n: () => ({
-      pending: 'pending...',
-      empty: 'empty',
+      pending: "pending...",
+      empty: "empty",
     }),
     parent: undefined,
     level: 1,
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<any[]>()
+const [modelValue] = defineModel<any[]>();
 
 const defaultIcons = {
-  open: 'lucide:minus',
-  closed: 'lucide:plus',
-  item: '',
-  empty: '',
-  pending: '',
-} as const
+  open: "lucide:minus",
+  closed: "lucide:plus",
+  item: "",
+  empty: "",
+  pending: "",
+} as const;
 
 const icons = computed(() => {
-  if (!props.icons) return defaultIcons
+  if (!props.icons) return defaultIcons;
   return {
     ...defaultIcons,
     ...props.icons,
-  }
-})
+  };
+});
 
 const defaultTreeline = {
-  offset: '0.625rem',
+  offset: "0.625rem",
   minLevel: 1,
-}
+};
 
 const treeline = computed(() => {
-  if (props.treeline === false) return false
-  if (props.treeline === true) return defaultTreeline
+  if (props.treeline === false) return false;
+  if (props.treeline === true) return defaultTreeline;
   return {
     ...defaultTreeline,
     ...props.treeline,
-  }
-})
+  };
+});
 
 const defaultCheckboxClasses = {
-  wrapper: 'text-primary-500 scale-[0.8] me-1',
-}
+  wrapper: "text-primary-500 scale-[0.8] me-1",
+};
 const checkboxClasses = computed(() => {
-  if (!props.classes?.checkbox) return defaultCheckboxClasses
+  if (!props.classes?.checkbox) return defaultCheckboxClasses;
   return {
     ...defaultCheckboxClasses,
     ...props.classes.checkbox,
-  }
-})
+  };
+});
 
-const treeState = useTreeState()
+const treeState = useTreeState();
 
 const subtreeState = computed(() =>
-  props.children ? treeState?.treeMap.get(props.children) : undefined,
-)
-const openMap = ref<Record<number, boolean>>(getDefaultOpenMap(props.children))
+  props.children ? treeState?.treeMap.get(props.children) : undefined
+);
+const openMap = ref<Record<number, boolean>>(getDefaultOpenMap(props.children));
 const _children = computed<TreeViewItemNode[] | undefined>(
-  () => subtreeState.value?.tree,
-)
+  () => subtreeState.value?.tree
+);
 watch(() => props.children, initChildren, {
   immediate: true,
-})
+});
 
 defineExpose({
   /**
@@ -236,288 +239,288 @@ defineExpose({
    * Unselect all nodes.
    */
   unselectAllChildren,
-})
+});
 
 // api
 
 async function initChildren() {
   // clear the treeMap if the children prop change
-  treeState.treeMap = new WeakMap()
+  treeState.treeMap = new WeakMap();
   if (props.children) {
     treeState.treeMap.set(props.children, {
       tree: [],
       pending: false,
       loaded: false,
-    })
+    });
   }
 
-  await loadTree(props.children)
-  openMap.value = getDefaultOpenMap(props.children)
+  await loadTree(props.children);
+  openMap.value = getDefaultOpenMap(props.children);
 }
 
 function useTreeState() {
-  const treeSymbol = Symbol('tree')
+  const treeSymbol = Symbol("tree");
   let treeState = inject<null | {
-    treeMap: WeakMap<TreeViewTreeSource, TreeViewSubtreeState>
-  }>(treeSymbol, null)
+    treeMap: WeakMap<TreeViewTreeSource, TreeViewSubtreeState>;
+  }>(treeSymbol, null);
 
   if (!treeState) {
     treeState = reactive({
       treeMap: new WeakMap<TreeViewTreeSource, TreeViewSubtreeState>(),
-    })
-    provide(treeSymbol, treeState)
+    });
+    provide(treeSymbol, treeState);
   }
 
-  return treeState
+  return treeState;
 }
 
 function getDefaultOpenMap(source?: TreeViewTreeSource) {
-  const map: Record<number, boolean> = {}
-  const children = getChildren(source)
-  if (!children) return map
+  const map: Record<number, boolean> = {};
+  const children = getChildren(source);
+  if (!children) return map;
 
   for (const index in children) {
-    const item = children[index]
-    if ('open' in item && item.open !== undefined) {
-      map[index] = item.open
+    const item = children[index];
+    if ("open" in item && item.open !== undefined) {
+      map[index] = item.open;
     }
   }
 
-  return map
+  return map;
 }
 
 async function loadTree(source?: TreeViewTreeSource) {
-  if (!source) return
-  const _subtreeState = treeState?.treeMap.get(source)
+  if (!source) return;
+  const _subtreeState = treeState?.treeMap.get(source);
 
   if (!_subtreeState) {
-    return
+    return;
   }
 
-  if (typeof source === 'function') {
-    _subtreeState.pending = true
+  if (typeof source === "function") {
+    _subtreeState.pending = true;
     try {
-      _subtreeState.tree = await source()
+      _subtreeState.tree = await source();
     } finally {
-      _subtreeState.pending = false
-      _subtreeState.loaded = true
+      _subtreeState.pending = false;
+      _subtreeState.loaded = true;
     }
-    return
+    return;
   }
 
-  _subtreeState.tree = source ?? []
-  _subtreeState.loaded = true
+  _subtreeState.tree = source ?? [];
+  _subtreeState.loaded = true;
 }
 
 function isNodeLoaded(node?: TreeViewItemNode) {
-  if (!node) return false
+  if (!node) return false;
 
-  if ('children' in node) {
-    if (typeof node.children === 'function') {
-      return treeState?.treeMap.get(node.children)?.loaded ?? false
+  if ("children" in node) {
+    if (typeof node.children === "function") {
+      return treeState?.treeMap.get(node.children)?.loaded ?? false;
     }
-    return true
+    return true;
   }
 
-  return true
+  return true;
 }
 
 function getChildren(tree?: TreeViewTreeSource) {
-  if (!tree) return
+  if (!tree) return;
 
   return treeState?.treeMap.has(tree)
     ? treeState?.treeMap.get(tree)?.tree
     : Array.isArray(tree)
-      ? tree
-      : undefined
+    ? tree
+    : undefined;
 }
 
 function getNodeChildren(node?: TreeViewItemNode) {
-  if (!node) return
-  if (!('children' in node) || !node.children) return
-  return getChildren(node.children)
+  if (!node) return;
+  if (!("children" in node) || !node.children) return;
+  return getChildren(node.children);
 }
 
 function areAllChildSelected(node?: TreeViewItemNode): boolean {
-  const _value = modelValue.value
-  if (!_value) return false
-  if (!node) return false
-  const children = getNodeChildren(node)
+  const _value = modelValue.value;
+  if (!_value) return false;
+  if (!node) return false;
+  const children = getNodeChildren(node);
 
   if (!children) {
-    return false
+    return false;
   }
 
   return (
     isNodeLoaded(node) &&
     children.every((child) => {
-      if (!('children' in child)) return _value.includes(child)
+      if (!("children" in child)) return _value.includes(child);
 
-      const subchildren = getNodeChildren(child)
+      const subchildren = getNodeChildren(child);
 
       if (subchildren && isNodeLoaded(child)) {
-        return areAllChildSelected(child)
+        return areAllChildSelected(child);
       }
 
-      return false
+      return false;
     })
-  )
+  );
 }
 
 function areSomeChildSelected(node?: TreeViewItemNode): boolean {
-  const _value = modelValue.value
-  if (!_value) return false
-  if (!node) return false
-  const children = getNodeChildren(node)
+  const _value = modelValue.value;
+  if (!_value) return false;
+  if (!node) return false;
+  const children = getNodeChildren(node);
 
   if (!children) {
-    return false
+    return false;
   }
 
   return (
     isNodeLoaded(node) &&
     children.some((child) => {
-      if (!('children' in child)) return _value.includes(child)
+      if (!("children" in child)) return _value.includes(child);
 
-      const subchildren = getNodeChildren(child)
+      const subchildren = getNodeChildren(child);
 
       if (subchildren && isNodeLoaded(child)) {
-        return areSomeChildSelected(child)
+        return areSomeChildSelected(child);
       }
 
-      return false
+      return false;
     })
-  )
+  );
 }
 
 function isUndeterminate(node?: TreeViewItemNode) {
-  if (!node) return false
-  if (!isNodeLoaded(node)) return false
-  return areSomeChildSelected(node) && !areAllChildSelected(node)
+  if (!node) return false;
+  if (!isNodeLoaded(node)) return false;
+  return areSomeChildSelected(node) && !areAllChildSelected(node);
 }
 
 function selectAllNode(node?: TreeViewItemNode) {
-  const _value = modelValue.value
-  if (!_value) return
-  if (!node) return
+  const _value = modelValue.value;
+  if (!_value) return;
+  if (!node) return;
 
-  if (!('children' in node) || !node.children) {
-    const idx = _value.indexOf(node)
+  if (!("children" in node) || !node.children) {
+    const idx = _value.indexOf(node);
     if (idx === -1) {
-      _value.push(node)
+      _value.push(node);
     }
-    return
+    return;
   }
-  if (!isNodeLoaded(node)) return
+  if (!isNodeLoaded(node)) return;
 
-  const children = getNodeChildren(node)
+  const children = getNodeChildren(node);
 
   if (!children) {
-    return
+    return;
   }
 
   for (const child of children) {
-    if ('children' in child) {
-      selectAllNode(child)
+    if ("children" in child) {
+      selectAllNode(child);
     } else {
-      const idx = _value.indexOf(child)
+      const idx = _value.indexOf(child);
       if (idx === -1) {
-        _value.push(child)
+        _value.push(child);
       }
     }
   }
 }
 
 function selectAllChildren(tree?: TreeViewItemNode[]) {
-  const children = tree || _children.value
-  if (!children) return
+  const children = tree || _children.value;
+  if (!children) return;
 
   for (const child of children) {
-    selectAllNode(child)
+    selectAllNode(child);
   }
 }
 
 function unselectAllNode(node?: TreeViewItemNode) {
-  const _value = modelValue.value
-  if (!_value) return
-  if (!node) return
-  if (!('children' in node) || !node.children) {
-    const idx = _value.indexOf(node)
+  const _value = modelValue.value;
+  if (!_value) return;
+  if (!node) return;
+  if (!("children" in node) || !node.children) {
+    const idx = _value.indexOf(node);
     if (idx >= 0) {
-      _value.splice(idx, 1)
+      _value.splice(idx, 1);
     }
-    return
+    return;
   }
-  if (!isNodeLoaded(node)) return
+  if (!isNodeLoaded(node)) return;
 
-  const children = getNodeChildren(node)
+  const children = getNodeChildren(node);
 
   if (!children) {
-    return
+    return;
   }
 
   for (const child of children) {
-    if ('children' in child) {
-      unselectAllNode(child)
+    if ("children" in child) {
+      unselectAllNode(child);
     } else {
-      const idx = _value.indexOf(child)
+      const idx = _value.indexOf(child);
       if (idx >= 0) {
-        _value.splice(idx, 1)
+        _value.splice(idx, 1);
       }
     }
   }
 }
 
 function unselectAllChildren(tree?: TreeViewItemNode[]) {
-  const children = tree || _children.value
-  if (!children) return
+  const children = tree || _children.value;
+  if (!children) return;
 
   for (const child of children) {
-    unselectAllNode(child)
+    unselectAllNode(child);
   }
 }
 
 function toggleNodeSelection(node?: TreeViewItemNode, event?: Event) {
-  const _value = modelValue.value
-  if (!_value) return
-  if (!node) return
+  const _value = modelValue.value;
+  if (!_value) return;
+  if (!node) return;
 
-  if ('children' in node) {
+  if ("children" in node) {
     if (!isNodeLoaded(node)) {
-      event?.preventDefault()
-      return
+      event?.preventDefault();
+      return;
     }
 
-    const children = getNodeChildren(node)
+    const children = getNodeChildren(node);
     if (!children || children.length === 0) {
-      event?.preventDefault()
-      return
+      event?.preventDefault();
+      return;
     }
     if (areAllChildSelected(node)) {
-      unselectAllNode(node)
+      unselectAllNode(node);
     } else if (children.length > 0) {
-      selectAllNode(node)
+      selectAllNode(node);
     }
-    return
+    return;
   }
 
-  const idx = _value.indexOf(node)
+  const idx = _value.indexOf(node);
   if (idx >= 0) {
-    _value.splice(idx, 1)
+    _value.splice(idx, 1);
   } else {
-    _value.push(node)
+    _value.push(node);
   }
 }
 
 function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
-  const children = tree || _children.value
-  if (!children) return
+  const children = tree || _children.value;
+  if (!children) return;
 
   for (const child of children) {
-    if ('children' in child) {
-      toggleChildrenSelection(getNodeChildren(child), event)
+    if ("children" in child) {
+      toggleChildrenSelection(getNodeChildren(child), event);
     } else {
-      toggleNodeSelection(child, event)
+      toggleNodeSelection(child, event);
     }
   }
 }
@@ -548,7 +551,7 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
             >
               <Icon
                 v-if="icons.pending"
-                :name="icons.pending"
+                :icon="icons.pending"
                 class="size-4"
                 :class="props.classes?.pendingIcon"
               />
@@ -589,7 +592,7 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
             >
               <Icon
                 v-if="icons.empty"
-                :name="icons.empty"
+                :icon="icons.empty"
                 :class="props.classes?.emptyIcon"
                 class="size-4"
               />
@@ -630,13 +633,13 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
             >
               <Icon
                 v-if="openMap[index] && icons.open"
-                :name="icons.open"
+                :icon="icons.open"
                 class="size-4"
                 :class="props.classes?.treeIcon"
               />
               <Icon
                 v-else-if="!openMap[index] && icons.closed"
-                :name="icons.closed"
+                :icon="icons.closed"
                 class="size-4"
                 :class="props.classes?.treeIcon"
               />
@@ -664,7 +667,7 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
               >
                 <Icon
                   v-if="icons.item"
-                  :name="icons.item"
+                  :icon="icons.item"
                   :class="props.classes?.itemIcon"
                   class="size-4"
                 />

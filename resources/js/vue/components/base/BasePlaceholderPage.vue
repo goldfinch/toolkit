@@ -1,22 +1,24 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import BaseHeading from "../base/BaseHeading.vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The title of the placeholder.
      */
-    title: string
+    title: string;
 
     /**
      * The subtitle of the placeholder.
      */
-    subtitle?: string
+    subtitle?: string;
 
     /**
      * The size of the featured image.
      *
      * @default 'xs'
      */
-    imageSize?: 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+    imageSize?: "xs" | "sm" | "md" | "lg" | "xl";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, input, addon, error, and icon elements.
@@ -25,54 +27,54 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the inner element.
        */
-      inner?: string | string[]
+      inner?: string | string[];
 
       /**
        * CSS classes to apply to the img element.
        */
-      img?: string | string[]
+      img?: string | string[];
 
       /**
        * CSS classes to apply to the content element.
        */
-      content?: string | string[]
+      content?: string | string[];
 
       /**
        * CSS classes to apply to the title element.
        */
-      title?: string | string[]
+      title?: string | string[];
 
       /**
        * CSS classes to apply to the subtitle element.
        */
-      subtitle?: string | string[]
-    }
+      subtitle?: string | string[];
+    };
   }>(),
   {
     subtitle: undefined,
     imageSize: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
 const imageSize = useNuiDefaultProperty(
   props,
-  'BasePlaceholderPage',
-  'imageSize',
-)
+  "BasePlaceholderPage",
+  "imageSize"
+);
 
 const sizes = {
-  xs: 'nui-placeholder-xs',
-  sm: 'nui-placeholder-sm',
-  md: 'nui-placeholder-md',
-  lg: 'nui-placeholder-lg',
-  xl: 'nui-placeholder-xl',
-}
+  xs: "nui-placeholder-xs",
+  sm: "nui-placeholder-sm",
+  md: "nui-placeholder-md",
+  lg: "nui-placeholder-lg",
+  xl: "nui-placeholder-xl",
+};
 </script>
 
 <template>

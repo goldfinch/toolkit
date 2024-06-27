@@ -1,49 +1,56 @@
 <script setup lang="ts">
+import { Icon } from "@rootnode/@iconify/vue";
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { computed, ref } from "@rootnode/vue";
+
+import BasePlaceload from "../base/BasePlaceload.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The label to display for the file input.
      */
-    label?: string
+    label?: string;
 
     /**
      * The icon to display for the file input.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * The placeholder to display for the file input.
      */
-    placeholder?: string
+    placeholder?: string;
 
     /**
      * An error message or boolean value indicating whether the file input is in an error state.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * Whether the color of the file input should change when it is focused.
      */
-    colorFocus?: boolean
+    colorFocus?: boolean;
 
     /**
      * Whether the file input is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * Method to return the text value of the file input.
      */
-    textValue?: (fileList?: FileList | null) => string
+    textValue?: (fileList?: FileList | null) => string;
 
     /**
      * The contrast of the input.
@@ -51,7 +58,7 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'default'
      */
-    contrast?: 'default' | 'default-contrast'
+    contrast?: "default" | "default-contrast";
 
     /**
      * The radius of the file input.
@@ -59,14 +66,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the input.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg' | 'xl'
+    size?: "sm" | "md" | "lg" | "xl";
 
     /**
      * Translation strings.
@@ -74,10 +81,10 @@ const props = withDefaults(
      * @default { empty: 'No file chosen', invalid: 'Invalid file selected', multiple: '{count} files selected'}
      */
     i18n?: {
-      empty: string
-      invalid: string
-      multiple: string
-    }
+      empty: string;
+      invalid: string;
+      multiple: string;
+    };
 
     /**
      * Optional CSS classes to apply to the wrapper, label, input, text, error, and icon elements.
@@ -86,33 +93,33 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
+      input?: string | string[];
 
       /**
        * CSS classes to apply to the text element.
        */
-      text?: string | string[]
+      text?: string | string[];
 
       /**
        * CSS classes to apply to the error element.
        */
-      error?: string | string[]
+      error?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
-    }
+      icon?: string | string[];
+    };
   }>(),
   {
     id: undefined,
@@ -126,59 +133,59 @@ const props = withDefaults(
     error: false,
     textValue: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<FileList | null>()
+const [modelValue] = defineModel<FileList | null>();
 
-const contrast = useNuiDefaultProperty(props, 'BaseInputFile', 'contrast')
-const rounded = useNuiDefaultProperty(props, 'BaseInputFile', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseInputFile', 'size')
-const i18n = useNuiDefaultProperty(props, 'BaseInputFile', 'i18n')
+const contrast = useNuiDefaultProperty(props, "BaseInputFile", "contrast");
+const rounded = useNuiDefaultProperty(props, "BaseInputFile", "rounded");
+const size = useNuiDefaultProperty(props, "BaseInputFile", "size");
+const i18n = useNuiDefaultProperty(props, "BaseInputFile", "i18n");
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 const defaultTextValue = (fileList?: FileList | null) => {
   if (!fileList?.item?.length) {
-    return i18n.value.empty
+    return i18n.value.empty;
   }
 
   return fileList?.item.length === 1
     ? fileList.item(0)?.name ?? i18n.value.invalid
     : i18n.value.multiple.replaceAll(
-        '{count}',
-        String(fileList?.item?.length ?? 0),
-      )
-}
+        "{count}",
+        String(fileList?.item?.length ?? 0)
+      );
+};
 
 const radiuses = {
-  none: '',
-  sm: 'nui-input-rounded-sm',
-  md: 'nui-input-rounded-md',
-  lg: 'nui-input-rounded-lg',
-  full: 'nui-input-rounded-full',
-}
+  none: "",
+  sm: "nui-input-rounded-sm",
+  md: "nui-input-rounded-md",
+  lg: "nui-input-rounded-lg",
+  full: "nui-input-rounded-full",
+};
 
 const sizes = {
-  sm: 'nui-input-sm',
-  md: 'nui-input-md',
-  lg: 'nui-input-lg',
-  xl: 'nui-input-xl',
-}
+  sm: "nui-input-sm",
+  md: "nui-input-md",
+  lg: "nui-input-lg",
+  xl: "nui-input-xl",
+};
 
 const contrasts = {
-  default: 'nui-input-default',
-  'default-contrast': 'nui-input-default-contrast',
-}
+  default: "nui-input-default",
+  "default-contrast": "nui-input-default-contrast",
+};
 
 const textValue = computed(() => {
   if (props.textValue) {
-    return props.textValue(modelValue.value)
+    return props.textValue(modelValue.value);
   }
 
-  return defaultTextValue(modelValue.value)
-})
+  return defaultTextValue(modelValue.value);
+});
 
 defineExpose({
   /**
@@ -190,7 +197,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>
@@ -233,7 +240,7 @@ defineExpose({
           <slot name="icon">
             <Icon
               v-if="props.icon"
-              :name="props.icon"
+              :icon="props.icon"
               :class="props.classes?.icon"
             />
           </slot>

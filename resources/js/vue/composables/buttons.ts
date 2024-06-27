@@ -1,8 +1,9 @@
-import type { RouteLocationRaw } from 'vue-router'
+// import type { RouteLocationRaw } from 'vue-router'
+import { computed } from "@rootnode/vue";
 
 export interface BaseButtonProperties {
   type?: 'button' | 'submit' | 'reset'
-  to?: RouteLocationRaw
+  to?: string, // RouteLocationRaw
   href?: string
   disabled?: boolean
   rel?: string
@@ -17,10 +18,11 @@ export const useNinjaButton = (
     externalDefaultTarget = '_blank',
   } = {},
 ) => {
-  const NuxtLink = defineNuxtLink({})
+  // const NuxtLink = defineNuxtLink({})
 
   const is = computed(() =>
-    properties.to ? NuxtLink : properties.href ? 'a' : 'button',
+    // properties.to ? NuxtLink : properties.href ? 'a' : 'button',
+    properties.href ? 'a' : 'button',
   )
   const type = computed(() => {
     if (is.value === 'button') {

@@ -1,24 +1,27 @@
 <script setup lang="ts">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { ref } from "@rootnode/vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * Accessible label of the switch.
      */
-    label?: string
+    label?: string;
 
     /**
      * The sublabel of the switch.
      */
-    sublabel?: string
+    sublabel?: string;
 
     /**
      * Main color of the switch.
@@ -26,13 +29,13 @@ const props = withDefaults(
      * @default 'primary'
      */
     color?:
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'dark'
-      | 'black'
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "dark"
+      | "black";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -41,28 +44,28 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the outer element.
        */
-      outer?: string | string[]
+      outer?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
+      input?: string | string[];
 
       /**
        * CSS classes to apply to the handle element.
        */
-      handle?: string | string[]
+      handle?: string | string[];
 
       /**
        * CSS classes to apply to the track element.
        */
-      track?: string | string[]
-    }
+      track?: string | string[];
+    };
   }>(),
   {
     id: undefined,
@@ -70,25 +73,25 @@ const props = withDefaults(
     sublabel: undefined,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<boolean>()
+const [modelValue] = defineModel<boolean>();
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
-const color = useNuiDefaultProperty(props, 'BaseSwitchThin', 'color')
+const color = useNuiDefaultProperty(props, "BaseSwitchThin", "color");
 
 const colors = {
-  primary: 'nui-switch-thin-primary',
-  info: 'nui-switch-thin-info',
-  success: 'nui-switch-thin-success',
-  warning: 'nui-switch-thin-warning',
-  danger: 'nui-switch-thin-danger',
-  dark: 'nui-switch-thin-dark',
-  black: 'nui-switch-thin-black',
-}
+  primary: "nui-switch-thin-primary",
+  info: "nui-switch-thin-info",
+  success: "nui-switch-thin-success",
+  warning: "nui-switch-thin-warning",
+  danger: "nui-switch-thin-danger",
+  dark: "nui-switch-thin-dark",
+  black: "nui-switch-thin-black",
+};
 
 defineExpose({
   /**
@@ -100,7 +103,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>

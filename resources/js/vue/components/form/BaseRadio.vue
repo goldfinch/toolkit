@@ -1,29 +1,33 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { ref } from "@rootnode/vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The value of the radio input.
      */
-    value?: T
+    value?: T;
 
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The label for the radio input.
      */
-    label?: string
+    label?: string;
 
     /**
      * An error message to display below the radio label.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * The color of the radio.
@@ -31,16 +35,16 @@ const props = withDefaults(
      * @default 'default'
      */
     color?:
-      | 'default'
-      | 'muted'
-      | 'light'
-      | 'dark'
-      | 'black'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
+      | "default"
+      | "muted"
+      | "light"
+      | "dark"
+      | "black"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger";
 
     /**
      * Classes to apply to the various parts of the radio input.
@@ -49,23 +53,23 @@ const props = withDefaults(
       /**
        * Classes to apply to the wrapper element of the radio input.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * Classes to apply to the label element of the radio input.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * Classes to apply to the dot element inside the radio input.
        */
-      inputDot?: string | string[]
+      inputDot?: string | string[];
 
       /**
        * Classes to apply to the background element inside the radio input.
        */
-      inputBg?: string | string[]
-    }
+      inputBg?: string | string[];
+    };
   }>(),
   {
     value: undefined,
@@ -74,31 +78,31 @@ const props = withDefaults(
     color: undefined,
     error: undefined,
     classes: () => ({}),
-  },
-)
-const [modelValue] = defineModel<T>()
+  }
+);
+const [modelValue] = defineModel<T>();
 
 defineSlots<{
-  default(): any
-}>()
+  default(): any;
+}>();
 
-const color = useNuiDefaultProperty(props, 'BaseRadio', 'color')
+const color = useNuiDefaultProperty(props, "BaseRadio", "color");
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 const colors = {
-  default: 'nui-radio-default',
-  muted: 'nui-radio-muted',
-  light: 'nui-radio-light',
-  dark: 'nui-radio-dark',
-  black: 'nui-radio-black',
-  primary: 'nui-radio-primary',
-  info: 'nui-radio-info',
-  success: 'nui-radio-success',
-  warning: 'nui-radio-warning',
-  danger: 'nui-radio-danger',
-}
+  default: "nui-radio-default",
+  muted: "nui-radio-muted",
+  light: "nui-radio-light",
+  dark: "nui-radio-dark",
+  black: "nui-radio-black",
+  primary: "nui-radio-primary",
+  info: "nui-radio-info",
+  success: "nui-radio-success",
+  warning: "nui-radio-warning",
+  danger: "nui-radio-danger",
+};
 
 defineExpose({
   /**
@@ -110,7 +114,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>

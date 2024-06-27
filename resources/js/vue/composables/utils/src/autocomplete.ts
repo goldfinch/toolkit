@@ -1,6 +1,6 @@
 import { usePlacesAutocomplete } from "@rootnode/vue-use-places-autocomplete";
 import { useScriptTag } from "@rootnode/@vueuse/core";
-import { ref } from "vue";
+import { ref } from "@rootnode/vue";
 
 const isGoogleMapsLoaded = ref(false);
 
@@ -10,8 +10,8 @@ const googleMapsInit = async () => {
   if (apiKey) {
     await useScriptTag(
       "https://maps.googleapis.com/maps/api/js?key=" +
-        apiKey.content +
-        "&libraries=places",
+      apiKey.content +
+      "&libraries=places",
       (el: HTMLScriptElement) => {
         isGoogleMapsLoaded.value = true;
       }

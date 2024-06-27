@@ -1,30 +1,32 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { computed } from "@rootnode/vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The current value of the progress circle.
      */
-    value?: number
+    value?: number;
 
     /**
      * The maximum value of the progress circle.
      */
-    max?: number
+    max?: number;
 
     /**
      * The size of the progress circle.
      */
-    size?: number
+    size?: number;
 
     /**
      * The thickness of the progress circle.
      */
-    thickness?: number
+    thickness?: number;
 
     /**
      * Enable/disable animation, or set the animation duration (in seconds).
      */
-    animation?: boolean | number
+    animation?: boolean | number;
 
     /**
      * Defines the color of the progress circle
@@ -33,14 +35,14 @@ const props = withDefaults(
      * @default 'primary'
      */
     color?:
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'light'
-      | 'dark'
-      | 'black'
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "light"
+      | "dark"
+      | "black";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -49,18 +51,18 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the track element.
        */
-      track?: string | string[]
+      track?: string | string[];
 
       /**
        * CSS classes to apply to the progress element.
        */
-      progress?: string | string[]
-    }
+      progress?: string | string[];
+    };
   }>(),
   {
     value: 0,
@@ -70,43 +72,43 @@ const props = withDefaults(
     animation: 2,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const color = useNuiDefaultProperty(props, 'BaseProgressCircle', 'color')
+const color = useNuiDefaultProperty(props, "BaseProgressCircle", "color");
 
 const percent = computed(() => {
-  const { value, max } = props
+  const { value, max } = props;
 
   if (max === 0) {
-    return 0
+    return 0;
   }
-  return (value / max) * 100
-})
+  return (value / max) * 100;
+});
 
 const dasharray = computed(() => {
-  return `${percent.value} 100`
-})
+  return `${percent.value} 100`;
+});
 const duration = computed(() => {
   if (props.animation === false) {
-    return '0s'
+    return "0s";
   }
 
-  const maxDuration = props.animation === true ? 2 : props.animation
-  const ratio = percent.value / 100
-  return ratio ? `${Math.round(maxDuration * ratio * 10) / 10}s` : '0s'
-})
+  const maxDuration = props.animation === true ? 2 : props.animation;
+  const ratio = percent.value / 100;
+  return ratio ? `${Math.round(maxDuration * ratio * 10) / 10}s` : "0s";
+});
 
 const colors = {
-  light: 'text-muted-500 dark:text-muted-400',
-  dark: 'text-muted-900 dark:text-muted-100',
-  black: 'text-black dark:text-white',
-  primary: 'text-primary-500',
-  info: 'text-info-500',
-  success: 'text-success-500',
-  warning: 'text-warning-500',
-  danger: 'text-danger-500',
-}
+  light: "text-muted-500 dark:text-muted-400",
+  dark: "text-muted-900 dark:text-muted-100",
+  black: "text-black dark:text-white",
+  primary: "text-primary-500",
+  info: "text-info-500",
+  success: "text-success-500",
+  warning: "text-warning-500",
+  danger: "text-danger-500",
+};
 </script>
 
 <template>

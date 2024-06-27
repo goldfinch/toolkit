@@ -1,20 +1,24 @@
 <script setup lang="ts">
+import { ref, onMounted, onBeforeUnmount } from "@rootnode/vue";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
+
 const props = withDefaults(
   defineProps<{
     /**
      * Label to display when file is being dropped.
      */
-    label?: string
+    label?: string;
 
     /**
      * Icon to display when file is being dropped.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * Allows to filter files when dropped.
      */
-    filterFileDropped?: (file: File) => boolean
+    filterFileDropped?: (file: File) => boolean;
 
     /**
      * Defines the color of the icon
@@ -22,84 +26,84 @@ const props = withDefaults(
      * @since 3.0.0
      * @default 'default'
      */
-    color?: 'primary' | 'dark' | 'black'
+    color?: "primary" | "dark" | "black";
   }>(),
   {
-    label: 'Drop your files',
-    icon: '',
+    label: "Drop your files",
+    icon: "",
     color: undefined,
     filterFileDropped: () => true,
-  },
-)
+  }
+);
 const emits = defineEmits<{
-  drop: [value: FileList]
-}>()
+  drop: [value: FileList];
+}>();
 
-const color = useNuiDefaultProperty(props, 'BaseFullscreenDropfile', 'color')
+const color = useNuiDefaultProperty(props, "BaseFullscreenDropfile", "color");
 
-const isDropping = ref(false)
+const isDropping = ref(false);
 
 // drag file over app handlers, to show drop placeholder
 // we need to keep track of how deep the drag is because it raises on each child elements
-let dragCount = 0
+let dragCount = 0;
 function onDragenter() {
-  dragCount += 1
+  dragCount += 1;
   if (dragCount === 1) {
-    isDropping.value = true
+    isDropping.value = true;
   }
 }
 function onDragleave() {
-  dragCount -= 1
+  dragCount -= 1;
   if (dragCount === 0) {
-    isDropping.value = false
+    isDropping.value = false;
   }
 }
 function onDragover(e: DragEvent) {
   // prevent file from being opened in new browser tab
-  e.preventDefault()
+  e.preventDefault();
 }
 function onDrop(event: DragEvent) {
-  event.preventDefault()
+  event.preventDefault();
 
-  isDropping.value = false
-  dragCount = 0
+  isDropping.value = false;
+  dragCount = 0;
 
   if (!event.dataTransfer) {
-    return
+    return;
   }
 
-  const dt = event.dataTransfer
-  const filtered = new DataTransfer()
+  const dt = event.dataTransfer;
+  const filtered = new DataTransfer();
   if (dt) {
     for (const file of dt.files) {
       if (props.filterFileDropped(file)) {
-        filtered.items.add(file)
+        filtered.items.add(file);
       }
     }
-    emits('drop', filtered.files)
+    emits("drop", filtered.files);
   }
 }
 
 // register drag events
 onMounted(() => {
-  document.documentElement.addEventListener('dragenter', onDragenter, false)
-  document.documentElement.addEventListener('dragleave', onDragleave, false)
-  document.documentElement.addEventListener('dragover', onDragover, false)
-  document.documentElement.addEventListener('drop', onDrop)
-})
+  document.documentElement.addEventListener("dragenter", onDragenter, false);
+  document.documentElement.addEventListener("dragleave", onDragleave, false);
+  document.documentElement.addEventListener("dragover", onDragover, false);
+  document.documentElement.addEventListener("drop", onDrop);
+});
 
 onBeforeUnmount(() => {
-  document.documentElement.removeEventListener('dragenter', onDragenter)
-  document.documentElement.removeEventListener('dragleave', onDragleave)
-  document.documentElement.removeEventListener('dragover', onDragover)
-  document.documentElement.removeEventListener('drop', onDrop)
-})
+  document.documentElement.removeEventListener("dragenter", onDragenter);
+  document.documentElement.removeEventListener("dragleave", onDragleave);
+  document.documentElement.removeEventListener("dragover", onDragover);
+  document.documentElement.removeEventListener("drop", onDrop);
+});
 
 const colors = {
-  primary: 'nui-dropfile-primary',
-  dark: 'nui-dropfile-dark',
-  black: 'nui-dropfile-black',
-}
+  primary: "nui-dropfile-primary",
+  dark: "nui-dropfile-dark",
+  black: "nui-dropfile-black",
+};
 </script>
 
 <template>
@@ -118,7 +122,7 @@ const colors = {
           <div class="nui-fullscreen-dropfile-content">
             <Icon
               v-if="props.icon"
-              :name="props.icon"
+              :icon="props.icon"
               class="nui-fullscreen-dropfile-icon"
             />
             <div class="nui-fullscreen-dropfile-label">{{ props.label }}</div>

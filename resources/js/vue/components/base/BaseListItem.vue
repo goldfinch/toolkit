@@ -1,22 +1,25 @@
 <script setup lang="ts">
+import { computed } from "@rootnode/vue";
+import BaseHeading from '../base/BaseHeading.vue'
+
 const props = defineProps<{
   /**
    * The title of the list item.
    */
-  title?: string
+  title?: string;
   /**
    * The subtitle of the list item.
    */
-  subtitle?: string
-}>()
+  subtitle?: string;
+}>();
 
-const slots = useSlots()
+const slots = useSlots();
 const hasTitle = computed(() => {
-  return Boolean(props.title || 'title' in slots)
-})
+  return Boolean(props.title || "title" in slots);
+});
 const hasSubtitle = computed(() => {
-  return Boolean(props.subtitle || 'subtitle' in slots)
-})
+  return Boolean(props.subtitle || "subtitle" in slots);
+});
 </script>
 
 <template>

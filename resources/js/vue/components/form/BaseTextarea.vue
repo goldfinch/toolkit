@@ -1,91 +1,96 @@
 <script setup lang="ts">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { ref, watch, nextTick } from "@rootnode/vue";
+import BasePlaceload from "../base/BasePlaceload.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The name of the textarea.
      */
-    name?: string
+    name?: string;
 
     /**
      * The label for the textarea.
      */
-    label?: string
+    label?: string;
 
     /**
      * If the label should be floating.
      */
-    labelFloat?: boolean
+    labelFloat?: boolean;
 
     /**
      * The placeholder text for the textarea.
      */
-    placeholder?: string
+    placeholder?: string;
 
     /**
      * Whether to apply the focus color to the textarea.
      */
-    colorFocus?: boolean
+    colorFocus?: boolean;
 
     /**
      * Whether the textarea is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * Whether the textarea is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * Whether the textarea is read-only.
      */
-    readonly?: boolean
+    readonly?: boolean;
 
     /**
      * The error message for the textarea, or whether it is in an error state.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * Whether to display an addon element in the textarea.
      */
-    addon?: boolean
+    addon?: boolean;
 
     /**
      * The number of rows to display in the textarea.
      */
-    rows?: number | string
+    rows?: number | string;
 
     /**
      * Whether to allow the user to resize the textarea.
      */
-    resize?: boolean
+    resize?: boolean;
 
     /**
      * Whether to automatically grow the textarea as text is entered.
      */
-    autogrow?: boolean
+    autogrow?: boolean;
 
     /**
      * The maximum height of the textarea when autogrow is enabled.
      */
-    maxHeight?: number
+    maxHeight?: number;
 
     /**
      * The contrast of the textarea.
      *
      * @default 'default'
      */
-    contrast?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    contrast?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * The radius of the textarea.
@@ -93,14 +98,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the textarea.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg'
+    size?: "sm" | "md" | "lg";
 
     /**
      * A set of classes to apply to the various elements of the textarea.
@@ -109,24 +114,24 @@ const props = withDefaults(
       /**
        * A class or list of classes to be applied to the textarea wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
       /**
        * A class or list of classes to be applied to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
       /**
        * A class or list of classes to be applied to the textarea element.
        */
-      textarea?: string | string[]
+      textarea?: string | string[];
       /**
        * A class or list of classes to be applied to the addon element.
        */
-      addon?: string | string[]
+      addon?: string | string[];
       /**
        * A class or list of classes to be applied to the error element.
        */
-      error?: string | string[]
-    }
+      error?: string | string[];
+    };
   }>(),
   {
     id: undefined,
@@ -135,77 +140,77 @@ const props = withDefaults(
     size: undefined,
     contrast: undefined,
     label: undefined,
-    placeholder: '',
+    placeholder: "",
     error: false,
     rows: 4,
     maxHeight: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const [modelValue, modelModifiers] = defineModel<string, 'lazy' | 'trim'>({
+const [modelValue, modelModifiers] = defineModel<string, "lazy" | "trim">({
   set(value) {
-    if (modelModifiers.trim && typeof value === 'string') {
-      return value.trim()
+    if (modelModifiers.trim && typeof value === "string") {
+      return value.trim();
     }
 
-    return value
+    return value;
   },
-})
+});
 
-const contrast = useNuiDefaultProperty(props, 'BaseTextarea', 'contrast')
-const rounded = useNuiDefaultProperty(props, 'BaseTextarea', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseTextarea', 'size')
+const contrast = useNuiDefaultProperty(props, "BaseTextarea", "contrast");
+const rounded = useNuiDefaultProperty(props, "BaseTextarea", "rounded");
+const size = useNuiDefaultProperty(props, "BaseTextarea", "size");
 
-const textareaRef = ref<HTMLTextAreaElement>()
-const id = useNinjaId(() => props.id)
+const textareaRef = ref<HTMLTextAreaElement>();
+const id = useNinjaId(() => props.id);
 
 const radiuses = {
-  none: '',
-  sm: 'nui-textarea-rounded-sm',
-  md: 'nui-textarea-rounded-md',
-  lg: 'nui-textarea-rounded-lg',
-  full: 'nui-textarea-rounded-lg',
-}
+  none: "",
+  sm: "nui-textarea-rounded-sm",
+  md: "nui-textarea-rounded-md",
+  lg: "nui-textarea-rounded-lg",
+  full: "nui-textarea-rounded-lg",
+};
 
 const sizes = {
-  sm: 'nui-textarea-sm',
-  md: 'nui-textarea-md',
-  lg: 'nui-textarea-lg',
-}
+  sm: "nui-textarea-sm",
+  md: "nui-textarea-md",
+  lg: "nui-textarea-lg",
+};
 
 const contrasts = {
-  default: 'nui-textarea-default',
-  'default-contrast': 'nui-textarea-default-contrast',
-  muted: 'nui-textarea-muted',
-  'muted-contrast': 'nui-textarea-muted-contrast',
-}
+  default: "nui-textarea-default",
+  "default-contrast": "nui-textarea-default-contrast",
+  muted: "nui-textarea-muted",
+  "muted-contrast": "nui-textarea-muted-contrast",
+};
 
 function fitSize() {
   if (!textareaRef.value) {
-    return
+    return;
   }
 
   if (props.autogrow) {
-    textareaRef.value.style.height = 'auto'
+    textareaRef.value.style.height = "auto";
     textareaRef.value.style.height =
       Math.min(
         props.maxHeight ?? Number.POSITIVE_INFINITY,
-        1 + textareaRef.value.scrollHeight,
-      ) + 'px'
+        1 + textareaRef.value.scrollHeight
+      ) + "px";
   }
 }
 
 watch(
   [() => props.autogrow, () => props.maxHeight, textareaRef, modelValue],
   async () => {
-    await nextTick()
-    fitSize()
+    await nextTick();
+    fitSize();
   },
   {
     immediate: true,
-  },
-)
+  }
+);
 
 defineExpose({
   /**
@@ -222,7 +227,7 @@ defineExpose({
    * A method to resize the textarea to fit its content.
    */
   fitSize,
-})
+});
 </script>
 
 <template>

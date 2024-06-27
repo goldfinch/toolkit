@@ -1,5 +1,7 @@
 <script setup lang="ts" generic="T extends unknown = string">
-import { Float, FloatContent, FloatReference } from '@headlessui-float/vue'
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
+import { Float, FloatContent, FloatReference } from "@rootnode/@headlessui-float/vue";
 import {
   Combobox,
   ComboboxButton,
@@ -7,138 +9,141 @@ import {
   ComboboxLabel,
   ComboboxOption,
   ComboboxOptions,
-} from '@headlessui/vue'
+} from "@rootnode/@headlessui/vue";
+import { ref, watch, computed, shallowRef, refDebounced } from "@rootnode/vue";
 
+import BasePlaceload from "../base/BasePlaceload.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The items to display in the component.
      */
-    items?: T[]
+    items?: T[];
 
     /**
      * The label to display for the component.
      */
-    label?: string
+    label?: string;
 
     /**
      * If the label should be floating.
      */
-    labelFloat?: boolean
+    labelFloat?: boolean;
 
     /**
      * An icon to display for the component.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * Placeholder text to display when the component is empty.
      */
-    placeholder?: string
+    placeholder?: string;
 
     /**
      * Error text to display when the component is in an error state.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * Value used when clearing the component value.
      */
-    clearValue?: any
+    clearValue?: any;
 
     /**
      * The icon to show in the clear button
      */
-    clearIcon?: string
+    clearIcon?: string;
 
     /**
      * The icon to show in the chip buttons
      */
-    chipClearIcon?: string
+    chipClearIcon?: string;
 
     /**
      * The icon to show in the dropdown button
      */
-    dropdownIcon?: string
+    dropdownIcon?: string;
 
     /**
      * A function used to render the items as strings in either the input or the tag when multiple is true.
      */
-    displayValue?: (item: T) => string
+    displayValue?: (item: T) => string;
 
     /**
      * The debounce time for the filterItems method.
      */
-    filterDebounce?: number
+    filterDebounce?: number;
 
     /**
      * A function to filter the items when query is changed.
      *
      * You can use this method to implement your own filtering logic or to fetch items from an API.
      */
-    filterItems?: (query?: string, items?: T[]) => Promise<T[]> | T[]
+    filterItems?: (query?: string, items?: T[]) => Promise<T[]> | T[];
 
     /**
      * Allow custom entries by the user
      */
-    allowCreate?: boolean
+    allowCreate?: boolean;
 
     /**
      * Hide the create custom prompt (just set the model to the value entered)
      */
-    hideCreatePrompt?: boolean
+    hideCreatePrompt?: boolean;
 
     /**
      * Whether the component is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * Whether the component is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * Whether the component can be cleared by the user.
      */
-    clearable?: boolean
+    clearable?: boolean;
 
     /**
      * Wether the border should change color when focused
      */
-    colorFocus?: boolean
+    colorFocus?: boolean;
 
     /**
      * Display a chevron icon to open suggestions
      */
-    dropdown?: boolean
+    dropdown?: boolean;
 
     /**
      * Whether the component allows multiple selections.
      */
-    multiple?: boolean
+    multiple?: boolean;
 
     /**
      * Used a fixed strategy to float the component
      */
-    fixed?: boolean
+    fixed?: boolean;
 
     /**
      * The placement of the component via floating-ui.
      */
     placement?:
-      | 'top'
-      | 'top-start'
-      | 'top-end'
-      | 'right'
-      | 'right-start'
-      | 'right-end'
-      | 'bottom'
-      | 'bottom-start'
-      | 'bottom-end'
-      | 'left'
-      | 'left-start'
-      | 'left-end'
+      | "top"
+      | "top-start"
+      | "top-end"
+      | "right"
+      | "right-start"
+      | "right-end"
+      | "bottom"
+      | "bottom-start"
+      | "bottom-end"
+      | "left"
+      | "left-start"
+      | "left-end";
 
     /**
      * The properties to use for the value, label, sublabel, media, and icon of the options items.
@@ -147,34 +152,34 @@ const props = withDefaults(
       /**
        * The property to use for the key of the options.
        */
-      value?: T extends object ? keyof T | ((arg: T) => string) : string
+      value?: T extends object ? keyof T | ((arg: T) => string) : string;
       /**
        * The property to use for the label of the options.
        */
-      label?: T extends object ? keyof T | ((arg: T) => string) : string
+      label?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the sublabel of the options.
        */
-      sublabel?: T extends object ? keyof T | ((arg: T) => string) : string
+      sublabel?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the media of the options.
        */
-      media?: T extends object ? keyof T | ((arg: T) => string) : string
+      media?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the icon of the options.
        */
-      icon?: T extends object ? keyof T | ((arg: T) => string) : string
-    }
+      icon?: T extends object ? keyof T | ((arg: T) => string) : string;
+    };
 
     /**
      * The contrast of autocomplete component.
      *
      * @default 'default'
      */
-    contrast?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    contrast?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * Translation strings.
@@ -182,9 +187,9 @@ const props = withDefaults(
      * @default { empty: 'Nothing found.', pending: 'Loading ...' }
      */
     i18n?: {
-      empty: string
-      pending: string
-    }
+      empty: string;
+      pending: string;
+    };
 
     /**
      * The radius of the component.
@@ -192,14 +197,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the autocomplete component.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg' | 'xl'
+    size?: "sm" | "md" | "lg" | "xl";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, input, addon, error, and icon elements.
@@ -208,28 +213,28 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * CSS classes to apply to the input element.
        */
-      input?: string | string[]
+      input?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
+      icon?: string | string[];
 
       /**
        * CSS classes to apply to the error element.
        */
-      error?: string | string[]
-    }
+      error?: string | string[];
+    };
   }>(),
   {
     items: () => [],
@@ -237,18 +242,18 @@ const props = withDefaults(
     size: undefined,
     contrast: undefined,
     icon: undefined,
-    placeholder: '',
-    label: '',
-    error: '',
+    placeholder: "",
+    label: "",
+    error: "",
     i18n: undefined,
     loading: false,
     disabled: false,
     clearable: false,
     colorFocus: false,
     clearValue: undefined,
-    clearIcon: 'lucide:x',
-    chipClearIcon: 'lucide:x',
-    dropdownIcon: 'lucide:chevron-down',
+    clearIcon: "lucide:x",
+    chipClearIcon: "lucide:x",
+    dropdownIcon: "lucide:chevron-down",
     dropdown: false,
     multiple: false,
     displayValue: undefined,
@@ -258,207 +263,207 @@ const props = withDefaults(
     allowCreate: false,
     hideCreatePrompt: false,
     fixed: false,
-    placement: 'bottom-start',
+    placement: "bottom-start",
     properties: undefined,
-  },
-)
+  }
+);
 
 const emits = defineEmits<{
-  keydown: [event: KeyboardEvent]
-}>()
+  keydown: [event: KeyboardEvent];
+}>();
 
 defineSlots<{
   item(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-    item: T
-    active: boolean
-    selected: boolean
-  }): any
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+    item: T;
+    active: boolean;
+    selected: boolean;
+  }): any;
   label(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-  }): any
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+  }): any;
   pending(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-  }): any
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+  }): any;
   empty(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-  }): any
-  'start-item'(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-  }): any
-  'end-item'(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-  }): any
-  'create-item'(props: {
-    query: string
-    filteredItems: T[]
-    pending: boolean
-    items: T[]
-    active: boolean
-    selected: boolean
-  }): any
-  'autocomplete-multiple-list-item'(props: {
-    item: T
-    displayValue: string
-    removeItem: (item: T) => void
-  }): any
-  'icon'(props: { iconName: string }): any
-  'clear-icon'(): any
-  'dropdown-icon'(): any
-}>()
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+  }): any;
+  "start-item"(props: {
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+  }): any;
+  "end-item"(props: {
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+  }): any;
+  "create-item"(props: {
+    query: string;
+    filteredItems: T[];
+    pending: boolean;
+    items: T[];
+    active: boolean;
+    selected: boolean;
+  }): any;
+  "autocomplete-multiple-list-item"(props: {
+    item: T;
+    displayValue: string;
+    removeItem: (item: T) => void;
+  }): any;
+  "icon"(props: { iconName: string }): any;
+  "clear-icon"(): any;
+  "dropdown-icon"(): any;
+}>();
 
-const [modelValue, modelModifiers] = defineModel<T | T[], 'prop'>({
+const [modelValue, modelModifiers] = defineModel<T | T[], "prop">({
   set(value) {
     if (!props.multiple && modelModifiers.prop && props.properties?.value) {
-      const attr = props.properties.value as any
+      const attr = props.properties.value as any;
       return (
         props.items.find(
           (item) =>
             item &&
-            typeof item === 'object' &&
+            typeof item === "object" &&
             attr in item &&
-            (item as any)[attr] === value,
+            (item as any)[attr] === value
         ) as any
-      )?.[attr]
+      )?.[attr];
     }
-    return value
+    return value;
   },
   get(value) {
     if (!props.multiple && modelModifiers.prop && props.properties?.value) {
-      const attr = props.properties.value as any
+      const attr = props.properties.value as any;
       return props.items.find(
         (item) =>
           item &&
-          typeof item === 'object' &&
+          typeof item === "object" &&
           attr in item &&
-          (item as any)[attr] === value,
-      )
+          (item as any)[attr] === value
+      );
     }
-    return value
+    return value;
   },
-})
+});
 
-const contrast = useNuiDefaultProperty(props, 'BaseAutocomplete', 'contrast')
-const i18n = useNuiDefaultProperty(props, 'BaseAutocomplete', 'i18n')
-const rounded = useNuiDefaultProperty(props, 'BaseAutocomplete', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseAutocomplete', 'size')
+const contrast = useNuiDefaultProperty(props, "BaseAutocomplete", "contrast");
+const i18n = useNuiDefaultProperty(props, "BaseAutocomplete", "i18n");
+const rounded = useNuiDefaultProperty(props, "BaseAutocomplete", "rounded");
+const size = useNuiDefaultProperty(props, "BaseAutocomplete", "size");
 
 const defaultDisplayValue = (item: any): any => {
   if (modelModifiers.prop && props.properties?.value) {
-    const attr = props.properties.value as any
+    const attr = props.properties.value as any;
     const result = items.value.find(
       (i) =>
-        i && typeof i === 'object' && attr in i && (i as any)[attr] === item,
-    )
+        i && typeof i === "object" && attr in i && (i as any)[attr] === item
+    );
     if (
-      typeof result === 'object' &&
+      typeof result === "object" &&
       result &&
       props.properties.label &&
       (props.properties.label as any) in result
     ) {
-      return result[props.properties.label as keyof typeof result]
+      return result[props.properties.label as keyof typeof result];
     }
   }
-  if (item == null || typeof item === 'string') return item
+  if (item == null || typeof item === "string") return item;
   if (
-    typeof item === 'object' &&
+    typeof item === "object" &&
     props.properties?.label &&
     (props.properties.label as any) in item
   )
-    return item[props.properties.label]
+    return item[props.properties.label];
 
-  return item
-}
+  return item;
+};
 
 const defaultFilter = (query?: string, items?: T[]): T[] => {
   if (!query || !items) {
-    return items ?? []
+    return items ?? [];
   }
 
-  const lower = query.toLowerCase()
+  const lower = query.toLowerCase();
 
   return items.filter((item: any) => {
-    if (typeof item === 'string') return item?.toLowerCase().includes(lower)
+    if (typeof item === "string") return item?.toLowerCase().includes(lower);
     if (
-      typeof item === 'object' &&
+      typeof item === "object" &&
       props.properties?.label &&
       (props.properties.label as any) in item
     )
-      return item[props.properties.label].toLowerCase().includes(lower)
+      return item[props.properties.label].toLowerCase().includes(lower);
     if (
-      typeof item === 'object' &&
+      typeof item === "object" &&
       props.properties?.sublabel &&
       (props.properties.sublabel as any) in item
     )
-      return item[props.properties.sublabel].toLowerCase().includes(lower)
-  })
-}
+      return item[props.properties.sublabel].toLowerCase().includes(lower);
+  });
+};
 
 const filterResolved = computed(() => {
-  if (props.filterItems === undefined) return defaultFilter
-  return props.filterItems
-})
+  if (props.filterItems === undefined) return defaultFilter;
+  return props.filterItems;
+});
 const displayValueResolved = computed(() => {
-  if (props.displayValue === undefined) return defaultDisplayValue
-  return props.displayValue
-})
+  if (props.displayValue === undefined) return defaultDisplayValue;
+  return props.displayValue;
+});
 
-const items = shallowRef(props.items)
-const query = ref('')
-const debounced = refDebounced(query, props.filterDebounce)
+const items = shallowRef(props.items);
+const query = ref("");
+const debounced = refDebounced(query, props.filterDebounce);
 const filteredItems = shallowRef<
   Awaited<ReturnType<typeof filterResolved.value>>
->(props.dropdown ? props.items : [])
-const pendingFilter = ref(false)
-const pendingDebounce = computed(() => query.value !== debounced.value)
-const pending = computed(() => pendingFilter.value || pendingDebounce.value)
+>(props.dropdown ? props.items : []);
+const pendingFilter = ref(false);
+const pendingDebounce = computed(() => query.value !== debounced.value);
+const pending = computed(() => pendingFilter.value || pendingDebounce.value);
 
 const queryCreate = computed(() => {
-  return query.value === '' ? null : query.value
-})
+  return query.value === "" ? null : query.value;
+});
 
 const radiuses = {
-  none: '',
-  sm: 'nui-autocomplete-rounded-sm',
-  md: 'nui-autocomplete-rounded-md',
-  lg: 'nui-autocomplete-rounded-lg',
-  full: 'nui-autocomplete-rounded-full',
-}
+  none: "",
+  sm: "nui-autocomplete-rounded-sm",
+  md: "nui-autocomplete-rounded-md",
+  lg: "nui-autocomplete-rounded-lg",
+  full: "nui-autocomplete-rounded-full",
+};
 
 const sizes = {
-  sm: 'nui-autocomplete-sm',
-  md: 'nui-autocomplete-md',
-  lg: 'nui-autocomplete-lg',
-  xl: 'nui-autocomplete-xl',
-}
+  sm: "nui-autocomplete-sm",
+  md: "nui-autocomplete-md",
+  lg: "nui-autocomplete-lg",
+  xl: "nui-autocomplete-xl",
+};
 
 const contrasts = {
-  default: 'nui-autocomplete-default',
-  'default-contrast': 'nui-autocomplete-default-contrast',
-  muted: 'nui-autocomplete-muted',
-  'muted-contrast': 'nui-autocomplete-muted-contrast',
-}
+  default: "nui-autocomplete-default",
+  "default-contrast": "nui-autocomplete-default-contrast",
+  muted: "nui-autocomplete-muted",
+  "muted-contrast": "nui-autocomplete-muted-contrast",
+};
 
 provide(
-  'BaseAutocompleteContext',
+  "BaseAutocompleteContext",
   reactive({
     selected: modelValue,
     items,
@@ -467,8 +472,8 @@ provide(
     pending,
     clear,
     removeItem,
-  }),
-)
+  })
+);
 defineExpose({
   /**
    * Current selected value.
@@ -494,84 +499,84 @@ defineExpose({
    * Removes an item from the selected value.
    */
   removeItem,
-})
+});
 watch([debounced, items], async ([value, _items]) => {
-  pendingFilter.value = true
+  pendingFilter.value = true;
   try {
-    filteredItems.value = await filterResolved.value(value, _items)
+    filteredItems.value = await filterResolved.value(value, _items);
   } catch (error: any) {
-    if (error?.name === 'AbortError') {
+    if (error?.name === "AbortError") {
       // Ignore abort errors
-      return
+      return;
     }
 
-    throw error
+    throw error;
   } finally {
-    pendingFilter.value = false
+    pendingFilter.value = false;
   }
-})
+});
 watch(
   () => props.items,
   () => {
-    items.value = props.items
-  },
-)
+    items.value = props.items;
+  }
+);
 
 const canClear = computed(() => {
-  if (!props.clearable) return false
+  if (!props.clearable) return false;
 
   if (Array.isArray(modelValue.value)) {
-    return modelValue.value.length > 0
+    return modelValue.value.length > 0;
   }
 
-  return modelValue.value !== props.clearValue
-})
+  return modelValue.value !== props.clearValue;
+});
 function clear() {
-  modelValue.value = props.clearValue ?? (props.multiple ? [] : null)
+  modelValue.value = props.clearValue ?? (props.multiple ? [] : null);
 }
 
 const iconResolved = computed(() => {
   if (
     modelValue.value &&
-    typeof modelValue.value === 'object' &&
+    typeof modelValue.value === "object" &&
     !Array.isArray(modelValue.value) &&
-    'icon' in modelValue.value &&
-    typeof modelValue.value.icon === 'string'
+    "icon" in modelValue.value &&
+    typeof modelValue.value.icon === "string"
   ) {
-    return modelValue.value.icon
+    return modelValue.value.icon;
   }
-  return props.icon
-})
+  return props.icon;
+});
 
 function removeItem(item: any) {
   if (!Array.isArray(modelValue.value)) {
-    modelValue.value = props.clearValue
-    return
+    modelValue.value = props.clearValue;
+    return;
   }
 
   for (let i = modelValue.value.length - 1; i >= 0; --i) {
     if (props.properties?.value) {
       if (modelValue.value[i] === item) {
-        modelValue.value.splice(i, 1)
+        modelValue.value.splice(i, 1);
       }
     }
     // eslint-disable-next-line eqeqeq
     else if (modelValue.value[i] === item) {
-      modelValue.value.splice(i, 1)
+      modelValue.value.splice(i, 1);
     }
   }
 }
 
 function key(item: T) {
-  if (props.properties == null) return displayValueResolved.value(item)
-  if (typeof props.properties.value === 'string')
-    return (item as any)[props.properties.value]
-  if (typeof props.properties.value === 'function')
-    return props.properties.value(item as any)
-  return displayValueResolved.value(item)
+  if (props.properties == null) return displayValueResolved.value(item);
+  if (typeof props.properties.value === "string")
+    return (item as any)[props.properties.value];
+  if (typeof props.properties.value === "function")
+    return props.properties.value(item as any);
+  return displayValueResolved.value(item);
 }
 
-const internal = ref<any>(modelValue)
+const internal = ref<any>(modelValue);
 </script>
 
 <template>
@@ -642,7 +647,7 @@ const internal = ref<any>(modelValue)
                 {{ displayValueResolved(item) }}
                 <button type="button" @click="removeItem(item)">
                   <Icon
-                    :name="chipClearIcon"
+                    :icon="chipClearIcon"
                     class="nui-autocomplete-multiple-list-item-icon"
                   />
                 </button>
@@ -685,7 +690,7 @@ const internal = ref<any>(modelValue)
           </ComboboxLabel>
           <div v-if="iconResolved" class="nui-autocomplete-icon">
             <slot name="icon" :icon-name="iconResolved">
-              <Icon :name="iconResolved" class="nui-autocomplete-icon-inner" />
+              <Icon :icon="iconResolved" class="nui-autocomplete-icon-inner" />
             </slot>
           </div>
           <button
@@ -702,7 +707,7 @@ const internal = ref<any>(modelValue)
           >
             <slot name="clear-icon">
               <Icon
-                :name="props.clearIcon"
+                :icon="props.clearIcon"
                 class="nui-autocomplete-clear-inner"
               />
             </slot>
@@ -714,7 +719,7 @@ const internal = ref<any>(modelValue)
           >
             <slot name="dropdown-icon">
               <Icon
-                :name="props.dropdownIcon"
+                :icon="props.dropdownIcon"
                 class="nui-autocomplete-clear-inner transition-transform duration-300"
                 :class="[props.classes?.icon, open && 'rotate-180']"
               />

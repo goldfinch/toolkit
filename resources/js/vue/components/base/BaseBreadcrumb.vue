@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
+// import type { RouteLocationRaw } from "vue-router";
+import { computed } from "@rootnode/vue";
 
 const props = withDefaults(
   defineProps<{
@@ -13,28 +16,28 @@ const props = withDefaults(
       /**
        * The route to navigate to when the item is clicked.
        */
-      to?: RouteLocationRaw
+      to?: string; // RouteLocationRaw;
 
       /**
        * The label to display for the item.
        */
-      label?: string
+      label?: string;
 
       /**
        * Whether to hide the label for the item.
        */
-      hideLabel?: boolean
+      hideLabel?: boolean;
 
       /**
        * An icon to display for the item.
        */
-      icon?: string
+      icon?: string;
 
       /**
        * CSS classes to apply to the icon.
        */
-      iconClasses?: string | string[]
-    }[]
+      iconClasses?: string | string[];
+    }[];
 
     /**
      * Defines the hover color of the breadcrumb links
@@ -42,7 +45,7 @@ const props = withDefaults(
      * @since 3.0.0
      * @default 'primary'
      */
-    color?: 'primary' | 'dark' | 'black'
+    color?: "primary" | "dark" | "black";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -51,84 +54,84 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the list element.
        */
-      list?: string | string[]
+      list?: string | string[];
 
       /**
        * CSS classes to apply to the dropdown element.
        */
-      dropdown?: string | string[]
+      dropdown?: string | string[];
 
       /**
        * CSS classes to apply to the item element.
        */
-      item?: string | string[]
-    }
+      item?: string | string[];
+    };
   }>(),
   {
     items: undefined,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const color = useNuiDefaultProperty(props, 'BaseBreadcrumb', 'color')
+const color = useNuiDefaultProperty(props, "BaseBreadcrumb", "color");
 
-const route = useRoute()
-const router = useRouter()
+const route = useRoute();
+const router = useRouter();
 
 const items = computed(() => {
   if (props.items) {
-    return props.items
+    return props.items;
   }
 
-  const breadcrumbItems: any[] = []
-  const indexRoute = router.resolve('/')
+  const breadcrumbItems: any[] = [];
+  const indexRoute = router.resolve("/");
 
   if (indexRoute.meta.breadcrumb === false) {
     // skip breadcrumb item
   } else if (indexRoute.meta.breadcrumb) {
-    const breadcrumbItem = indexRoute.meta.breadcrumb
+    const breadcrumbItem = indexRoute.meta.breadcrumb;
     breadcrumbItems.push({
       to: indexRoute.path,
       ...breadcrumbItem,
-    })
+    });
   } else if (indexRoute.meta.title) {
     breadcrumbItems.push({
       label: indexRoute.meta.title as string,
       to: indexRoute.path,
-    })
+    });
   }
 
   for (const matched of route.matched) {
     if (matched.meta.breadcrumb === false) {
       // skip breadcrumb item
     } else if (matched.meta.breadcrumb) {
-      const breadcrumbItem = matched.meta.breadcrumb
+      const breadcrumbItem = matched.meta.breadcrumb;
       breadcrumbItems.push({
         to: matched.path,
         ...breadcrumbItem,
-      })
+      });
     } else if (matched.meta.title) {
       breadcrumbItems.push({
         label: matched.meta.title as string,
         to: matched.path,
-      })
+      });
     }
   }
 
-  return breadcrumbItems
-})
+  return breadcrumbItems;
+});
 
 const colors = {
-  primary: 'nui-breadcrumb-primary',
-  dark: 'nui-breadcrumb-dark',
-  black: 'nui-breadcrumb-black',
-}
+  primary: "nui-breadcrumb-primary",
+  dark: "nui-breadcrumb-dark",
+  black: "nui-breadcrumb-black",
+};
 </script>
 
 <template>
@@ -170,7 +173,7 @@ const colors = {
               <slot name="icon" v-bind="{ item, index }">
                 <Icon
                   v-if="item.icon"
-                  :name="item.icon"
+                  :icon="item.icon"
                   class="nui-item-icon"
                   :class="item.iconClasses"
                 />

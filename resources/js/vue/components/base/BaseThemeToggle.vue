@@ -1,56 +1,59 @@
 <script setup lang="ts">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { computed } from "@rootnode/vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
     /**
      * Sets the toggle element to inverted colors mode.
      */
-    inverted?: boolean
+    inverted?: boolean;
     /**
      * Disables transitions when toggling between light and dark mode.
      *
      * @default false
      */
-    disableTransitions?: boolean
+    disableTransitions?: boolean;
   }>(),
   {
     id: undefined,
     inverted: false,
     disableTransitions: undefined,
-  },
-)
+  }
+);
 
-const id = useNinjaId(() => props.id)
+const id = useNinjaId(() => props.id);
 const disableTransitions = useNuiDefaultProperty(
   props,
-  'BaseThemeToggle',
-  'disableTransitions',
-)
+  "BaseThemeToggle",
+  "disableTransitions"
+);
 
-const colorMode = useColorMode()
+const colorMode = useColorMode();
 const isDark = computed({
   get() {
-    return colorMode.value === 'dark'
+    return colorMode.value === "dark";
   },
   set(value) {
     // disable transitions
     if (import.meta.browser && disableTransitions.value) {
-      document.documentElement.classList.add('nui-no-transition')
+      document.documentElement.classList.add("nui-no-transition");
     }
 
-    colorMode.preference = value ? 'dark' : 'light'
+    colorMode.preference = value ? "dark" : "light";
 
     // re-enable transitions
     if (import.meta.browser && disableTransitions.value) {
       setTimeout(() => {
-        document.documentElement.classList.remove('nui-no-transition')
-      }, 0)
+        document.documentElement.classList.remove("nui-no-transition");
+      }, 0);
     }
   },
-})
+});
 </script>
 
 <template>

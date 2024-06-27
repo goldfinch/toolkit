@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import { Menu, MenuButton, MenuItems } from '@headlessui/vue'
-import { Float } from '@headlessui-float/vue'
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Menu, MenuButton, MenuItems } from "@rootnode/@headlessui/vue";
+import { Float } from "@rootnode/@headlessui-float/vue";
+import { Icon } from "@rootnode/@iconify/vue";
 
 const props = withDefaults(
   defineProps<{
     /**
      * The label to display for the dropdown.
      */
-    label?: string
+    label?: string;
 
     /**
      * The header label to display for the dropdown.
      */
-    headerLabel?: string
+    headerLabel?: string;
 
     /**
      * Used a fixed strategy to float the component
      */
-    fixed?: boolean
+    fixed?: boolean;
 
     /**
      * The color of the button.
@@ -25,26 +27,31 @@ const props = withDefaults(
      * @default 'default'
      */
     buttonColor?:
-      | 'default'
-      | 'default-contrast'
-      | 'muted'
-      | 'muted-contrast'
-      | 'light'
-      | 'dark'
-      | 'black'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'none'
+      | "default"
+      | "default-contrast"
+      | "muted"
+      | "muted-contrast"
+      | "light"
+      | "dark"
+      | "black"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "none";
 
     /**
      * The color of the dropdown.
      *
      * @default 'default'
      */
-    color?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast' | 'none'
+    color?:
+      | "default"
+      | "default-contrast"
+      | "muted"
+      | "muted-contrast"
+      | "none";
 
     /**
      * The placement of the dropdown via floating-ui.
@@ -52,18 +59,18 @@ const props = withDefaults(
      * @default 'bottom-start'
      */
     placement?:
-      | 'top'
-      | 'top-start'
-      | 'top-end'
-      | 'right'
-      | 'right-start'
-      | 'right-end'
-      | 'bottom'
-      | 'bottom-start'
-      | 'bottom-end'
-      | 'left'
-      | 'left-start'
-      | 'left-end'
+      | "top"
+      | "top-start"
+      | "top-end"
+      | "right"
+      | "right-start"
+      | "right-end"
+      | "bottom"
+      | "bottom-start"
+      | "bottom-end"
+      | "left"
+      | "left-start"
+      | "left-end";
 
     /**
      * The radius of the dropdown button.
@@ -71,14 +78,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the dropdown.
      *
      * @default 'md'
      */
-    size?: 'md' | 'lg'
+    size?: "md" | "lg";
 
     /**
      * The variant of the dropdown.
@@ -86,7 +93,7 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'button'
      */
-    variant?: 'button' | 'context' | 'text'
+    variant?: "button" | "context" | "text";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -95,28 +102,28 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the headless ui menu element.
        */
-      menuWrapper?: string | string[]
+      menuWrapper?: string | string[];
 
       /**
        * CSS classes to apply to the dropdown menu element.
        */
-      menu?: string | string[]
+      menu?: string | string[];
 
       /**
        * CSS classes to apply to the header element.
        */
-      header?: string | string[]
+      header?: string | string[];
 
       /**
        * CSS classes to apply to the content element.
        */
-      content?: string | string[]
-    }
+      content?: string | string[];
+    };
   }>(),
   {
     variant: undefined,
@@ -126,67 +133,67 @@ const props = withDefaults(
     orientation: undefined,
     placement: undefined,
     size: undefined,
-    label: '',
+    label: "",
     headerLabel: undefined,
     fixed: false,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const buttonColor = useNuiDefaultProperty(props, 'BaseDropdown', 'buttonColor')
-const color = useNuiDefaultProperty(props, 'BaseDropdown', 'color')
-const placement = useNuiDefaultProperty(props, 'BaseDropdown', 'placement')
-const rounded = useNuiDefaultProperty(props, 'BaseDropdown', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseDropdown', 'size')
-const variant = useNuiDefaultProperty(props, 'BaseDropdown', 'variant')
+const buttonColor = useNuiDefaultProperty(props, "BaseDropdown", "buttonColor");
+const color = useNuiDefaultProperty(props, "BaseDropdown", "color");
+const placement = useNuiDefaultProperty(props, "BaseDropdown", "placement");
+const rounded = useNuiDefaultProperty(props, "BaseDropdown", "rounded");
+const size = useNuiDefaultProperty(props, "BaseDropdown", "size");
+const variant = useNuiDefaultProperty(props, "BaseDropdown", "variant");
 
 const sizes = {
-  md: 'nui-menu-md',
-  lg: 'nui-menu-lg',
-}
+  md: "nui-menu-md",
+  lg: "nui-menu-lg",
+};
 
 const radiuses = {
-  none: '',
-  sm: 'nui-menu-rounded-sm',
-  md: 'nui-menu-rounded-md',
-  lg: 'nui-menu-rounded-lg',
-  full: 'nui-menu-rounded-lg',
-}
+  none: "",
+  sm: "nui-menu-rounded-sm",
+  md: "nui-menu-rounded-md",
+  lg: "nui-menu-rounded-lg",
+  full: "nui-menu-rounded-lg",
+};
 
 const colors = {
-  default: 'nui-menu-default',
-  'default-contrast': 'nui-menu-default-contrast',
-  muted: 'nui-menu-muted',
-  'muted-contrast': 'nui-menu-muted-contrast',
-  primary: 'nui-menu-primary',
-  info: 'nui-menu-info',
-  success: 'nui-menu-success',
-  warning: 'nui-menu-warning',
-  danger: 'nui-menu-danger',
-  none: '',
-}
+  default: "nui-menu-default",
+  "default-contrast": "nui-menu-default-contrast",
+  muted: "nui-menu-muted",
+  "muted-contrast": "nui-menu-muted-contrast",
+  primary: "nui-menu-primary",
+  info: "nui-menu-info",
+  success: "nui-menu-success",
+  warning: "nui-menu-warning",
+  danger: "nui-menu-danger",
+  none: "",
+};
 
 const textColors = {
-  default: 'text-inherit',
-  'default-contrast': 'text-inherit',
-  muted: 'text-muted-500',
-  'muted-contrast': 'text-muted-500',
-  primary: 'text-primary-500',
-  info: 'text-info-500',
-  success: 'text-success-500',
-  warning: 'text-warning-500',
-  danger: 'text-danger-500',
-  light: 'text-muted-100',
-  dark: 'text-muted-900 dark:text-muted-100',
-  black: 'text-black dark:text-white',
-  none: '',
-}
+  default: "text-inherit",
+  "default-contrast": "text-inherit",
+  muted: "text-muted-500",
+  "muted-contrast": "text-muted-500",
+  primary: "text-primary-500",
+  info: "text-info-500",
+  success: "text-success-500",
+  warning: "text-warning-500",
+  danger: "text-danger-500",
+  light: "text-muted-100",
+  dark: "text-muted-900 dark:text-muted-100",
+  black: "text-black dark:text-white",
+  none: "",
+};
 </script>
 
 <template>
   <div class="nui-dropdown" :class="props.classes?.wrapper">
     <Menu
-      v-slot="{ open, close }: { open: boolean; close: () => void }"
+      v-slot="{ open, close }: { open: boolean, close: () => void }"
       as="div"
       class="nui-menu"
       :class="props.classes?.menuWrapper"
@@ -217,7 +224,7 @@ const textColors = {
                 <span>{{ props.label }}</span>
               </slot>
               <Icon
-                name="lucide:chevron-down"
+                icon="lucide:chevron-down"
                 class="nui-chevron"
                 :class="open && 'rotate-180'"
               />
@@ -229,7 +236,7 @@ const textColors = {
             >
               <span class="nui-context-button-inner">
                 <Icon
-                  name="lucide:more-horizontal"
+                  icon="lucide:more-horizontal"
                   class="nui-context-icon"
                   :class="open && 'rotate-90'"
                 />
@@ -248,7 +255,7 @@ const textColors = {
               </slot>
 
               <Icon
-                name="lucide:chevron-down"
+                icon="lucide:chevron-down"
                 class="nui-chevron"
                 :class="open && 'rotate-180'"
               />

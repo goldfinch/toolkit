@@ -1,5 +1,8 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
 import IconCheckCircle from "../icon/IconCheckCircle.vue";
+import { ref, computed } from "@rootnode/vue";
 
 defineOptions({
   inheritAttrs: false,

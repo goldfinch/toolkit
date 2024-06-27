@@ -1,61 +1,69 @@
 <script setup lang="ts">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { computed, ref } from "@rootnode/vue";
+import IconChevronDown from "../icon/IconChevronDown.vue";
+import { Icon } from "@rootnode/@iconify/vue";
+
+import BasePlaceload from "../base/BasePlaceload.vue";
+import BaseInputHelpText from "../form/BaseInputHelpText.vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The label text for the select input.
      */
-    label?: string
+    label?: string;
 
     /**
      * If the label should be floating.
      */
-    labelFloat?: boolean
+    labelFloat?: boolean;
 
     /**
      * An icon to display in the select input.
      */
-    icon?: string
+    icon?: string;
 
     /**
      * The placeholder to display for the select input.
      */
-    placeholder?: string
+    placeholder?: string;
 
     /**
      * Whether the select input is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * Whether the select input is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * Whether the color of the input should change when it is focused.
      */
-    colorFocus?: boolean
+    colorFocus?: boolean;
 
     /**
      * An error message to display, or a boolean indicating whether there is an error.
      */
-    error?: string | boolean
+    error?: string | boolean;
 
     /**
      * The contrast of the select input.
      *
      * @default 'default'
      */
-    contrast?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    contrast?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * The radius of the select input.
@@ -63,14 +71,14 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the select input.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg' | 'xl'
+    size?: "sm" | "md" | "lg" | "xl";
 
     /**
      * Classes to apply to the select input.
@@ -79,82 +87,82 @@ const props = withDefaults(
       /**
        * A class or classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * A class or classes to apply to the outer element.
        */
-      outer?: string | string[]
+      outer?: string | string[];
 
       /**
        * A class or classes to apply to the label element.
        */
-      label?: string | string[]
+      label?: string | string[];
 
       /**
        * A class or classes to apply to the select element.
        */
-      select?: string | string[]
+      select?: string | string[];
 
       /**
        * A class or classes to apply to the chevron element.
        */
-      chevron?: string | string[]
+      chevron?: string | string[];
 
       /**
        * A class or classes to apply to the icon element.
        */
-      icon?: string | string[]
+      icon?: string | string[];
 
       /**
        * A class or classes to apply to the error element.
        */
-      error?: string | string[]
-    }
+      error?: string | string[];
+    };
   }>(),
   {
     id: undefined,
     rounded: undefined,
     size: undefined,
     contrast: undefined,
-    label: '',
+    label: "",
     icon: undefined,
-    placeholder: '',
+    placeholder: "",
     error: false,
     classes: () => ({}),
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<any>()
+const [modelValue] = defineModel<any>();
 
-const contrast = useNuiDefaultProperty(props, 'BaseSelect', 'contrast')
-const rounded = useNuiDefaultProperty(props, 'BaseSelect', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseSelect', 'size')
+const contrast = useNuiDefaultProperty(props, "BaseSelect", "contrast");
+const rounded = useNuiDefaultProperty(props, "BaseSelect", "rounded");
+const size = useNuiDefaultProperty(props, "BaseSelect", "size");
 
-const selectRef = ref<HTMLSelectElement>()
-const id = useNinjaId(() => props.id)
+const selectRef = ref<HTMLSelectElement>();
+const id = useNinjaId(() => props.id);
 
 const radiuses = {
-  none: '',
-  sm: 'nui-select-rounded-sm',
-  md: 'nui-select-rounded-md',
-  lg: 'nui-select-rounded-lg',
-  full: 'nui-select-rounded-full',
-}
+  none: "",
+  sm: "nui-select-rounded-sm",
+  md: "nui-select-rounded-md",
+  lg: "nui-select-rounded-lg",
+  full: "nui-select-rounded-full",
+};
 
 const sizes = {
-  sm: 'nui-select-sm',
-  md: 'nui-select-md',
-  lg: 'nui-select-lg',
-  xl: 'nui-select-xl',
-}
+  sm: "nui-select-sm",
+  md: "nui-select-md",
+  lg: "nui-select-lg",
+  xl: "nui-select-xl",
+};
 
 const contrasts = {
-  default: 'nui-select-default',
-  'default-contrast': 'nui-select-default-contrast',
-  muted: 'nui-select-muted',
-  'muted-contrast': 'nui-select-muted-contrast',
-}
+  default: "nui-select-default",
+  "default-contrast": "nui-select-default-contrast",
+  muted: "nui-select-muted",
+  "muted-contrast": "nui-select-muted-contrast",
+};
 
 defineExpose({
   /**
@@ -166,18 +174,18 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 
 const placeholder = computed(() => {
   if (props.loading) {
-    return
+    return;
   }
   if (props.labelFloat) {
-    return props.label
+    return props.label;
   }
 
-  return props.placeholder
-})
+  return props.placeholder;
+});
 </script>
 
 <template>
@@ -241,7 +249,7 @@ const placeholder = computed(() => {
         :class="props.classes?.icon"
       >
         <slot name="icon">
-          <Icon class="nui-select-icon-inner" :name="props.icon" />
+          <Icon class="nui-select-icon-inner" :icon="props.icon" />
         </slot>
       </div>
       <div

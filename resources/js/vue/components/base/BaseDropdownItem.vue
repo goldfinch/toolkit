@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { MenuItem } from '@headlessui/vue'
-import type { RouteLocationRaw } from 'vue-router'
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { MenuItem } from '@rootnode/@headlessui/vue'
+// import type { RouteLocationRaw } from 'vue-router'
 
 const props = withDefaults(
   defineProps<{
     /**
      * The route to navigate to when the button is clicked.
      */
-    to?: RouteLocationRaw
+    to?: string // RouteLocationRaw
 
     /** Using href instead of to result in a native anchor with no router functionality. */
     href?: string

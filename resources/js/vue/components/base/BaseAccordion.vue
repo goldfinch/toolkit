@@ -1,4 +1,7 @@
 <script setup lang="ts" generic="T extends unknown">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { ref } from "@rootnode/vue";
+import BaseHeading from "../base/BaseHeading.vue";
 const props = withDefaults(
   defineProps<{
     /**
@@ -8,29 +11,29 @@ const props = withDefaults(
       /**
        * The title of the accordion item.
        */
-      title: string
+      title: string;
       /**
        * The content of the accordion item.
        */
-      content: T
-    }[]
+      content: T;
+    }[];
 
     /**
      * Indexes of the items that should be opened by default.
      */
-    openItems?: number[]
+    openItems?: number[];
 
     /**
      * Whether if multiple elements in the accordion can be opened at same time or not.
      */
-    exclusive?: boolean
+    exclusive?: boolean;
 
     /**
      * Defines the icon used for accordion item toggle action
      *
      * @default 'dot'
      */
-    action?: 'dot' | 'chevron' | 'plus'
+    action?: "dot" | "chevron" | "plus";
 
     /**
      * Defines the color of the accordion
@@ -38,7 +41,7 @@ const props = withDefaults(
      * @since 3.0.0
      * @default 'default'
      */
-    color?: 'default' | 'default-contrast' | 'muted' | 'muted-contrast'
+    color?: "default" | "default-contrast" | "muted" | "muted-contrast";
 
     /**
      * Defines the color of the accordion dot
@@ -47,14 +50,14 @@ const props = withDefaults(
      * @default 'primary'
      */
     dotColor?:
-      | 'default'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'dark'
-      | 'black'
+      | "default"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "dark"
+      | "black";
 
     /**
      * Defines the radius of the accordion
@@ -62,7 +65,7 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg'
+    rounded?: "none" | "sm" | "md" | "lg";
 
     /**
      * Optional CSS classes to apply to the wrapper, label, input, addon, error, and icon elements.
@@ -71,130 +74,130 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the details element.
        */
-      details?: string | string[]
+      details?: string | string[];
 
       /**
        * CSS classes to apply to the summary element.
        */
-      summary?: string | string[]
+      summary?: string | string[];
 
       /**
        * CSS classes to apply to the header element.
        */
-      header?: string | string[]
+      header?: string | string[];
 
       /**
        * CSS classes to apply to the content element.
        */
-      content?: string | string[]
-    }
+      content?: string | string[];
+    };
   }>(),
   {
     openItems: () => [],
     rounded: undefined,
     color: undefined,
     dotColor: undefined,
-    action: 'dot',
+    action: "dot",
     classes: () => ({}),
-  },
-)
+  }
+);
 const emits = defineEmits<{
   (
-    event: 'open',
+    event: "open",
     item: {
       /**
        * The title of the accordion item.
        */
-      title: string
+      title: string;
       /**
        * The content of the accordion item.
        */
-      content: T
-    },
-  ): void
-}>()
+      content: T;
+    }
+  ): void;
+}>();
 
-const action = useNuiDefaultProperty(props, 'BaseAccordion', 'action')
-const color = useNuiDefaultProperty(props, 'BaseAccordion', 'color')
-const dotColor = useNuiDefaultProperty(props, 'BaseAccordion', 'dotColor')
-const rounded = useNuiDefaultProperty(props, 'BaseAccordion', 'rounded')
+const action = useNuiDefaultProperty(props, "BaseAccordion", "action");
+const color = useNuiDefaultProperty(props, "BaseAccordion", "color");
+const dotColor = useNuiDefaultProperty(props, "BaseAccordion", "dotColor");
+const rounded = useNuiDefaultProperty(props, "BaseAccordion", "rounded");
 
 defineSlots<{
-  'accordion-item'(props: {
-    index: number
-    item: { title: string; content: T }
-    toggle: (index: number) => void
-  }): any
-  'accordion-item-summary'(props: {
-    index: number
-    item: { title: string; content: T }
-    toggle: (index: number) => void
-  }): any
-  'accordion-item-content'(props: {
-    index: number
-    item: { title: string; content: T }
-    toggle: (index: number) => void
-  }): any
-}>()
+  "accordion-item"(props: {
+    index: number;
+    item: { title: string; content: T };
+    toggle: (index: number) => void;
+  }): any;
+  "accordion-item-summary"(props: {
+    index: number;
+    item: { title: string; content: T };
+    toggle: (index: number) => void;
+  }): any;
+  "accordion-item-content"(props: {
+    index: number;
+    item: { title: string; content: T };
+    toggle: (index: number) => void;
+  }): any;
+}>();
 
 const colors = {
-  default: 'nui-accordion-default',
-  'default-contrast': 'nui-accordion-default-contrast',
-  muted: 'nui-accordion-muted',
-  'muted-contrast': 'nui-accordion-muted-contrast',
-}
+  default: "nui-accordion-default",
+  "default-contrast": "nui-accordion-default-contrast",
+  muted: "nui-accordion-muted",
+  "muted-contrast": "nui-accordion-muted-contrast",
+};
 
 const dotColors = {
-  default: 'nui-dot-default',
-  primary: 'nui-dot-primary',
-  info: 'nui-dot-info',
-  success: 'nui-dot-success',
-  warning: 'nui-dot-warning',
-  danger: 'nui-dot-danger',
-  dark: 'nui-dot-dark',
-  black: 'nui-dot-black',
-}
+  default: "nui-dot-default",
+  primary: "nui-dot-primary",
+  info: "nui-dot-info",
+  success: "nui-dot-success",
+  warning: "nui-dot-warning",
+  danger: "nui-dot-danger",
+  dark: "nui-dot-dark",
+  black: "nui-dot-black",
+};
 
 const radiuses = {
-  none: '',
-  sm: 'nui-accordion-rounded-sm',
-  md: 'nui-accordion-rounded-md',
-  lg: 'nui-accordion-rounded-lg',
-}
+  none: "",
+  sm: "nui-accordion-rounded-sm",
+  md: "nui-accordion-rounded-md",
+  lg: "nui-accordion-rounded-lg",
+};
 
 const actions = {
-  dot: 'nui-accordion-dot',
-  chevron: 'nui-accordion-chevron',
-  plus: 'nui-accordion-plus',
-}
+  dot: "nui-accordion-dot",
+  chevron: "nui-accordion-chevron",
+  plus: "nui-accordion-plus",
+};
 
-const internalOpenItems = ref(props.openItems)
+const internalOpenItems = ref(props.openItems);
 const toggle = (key: number) => {
-  const wasOpen = internalOpenItems.value.includes(key)
+  const wasOpen = internalOpenItems.value.includes(key);
 
   if (props.exclusive) {
-    internalOpenItems.value.splice(0, internalOpenItems.value.length)
+    internalOpenItems.value.splice(0, internalOpenItems.value.length);
 
     if (!wasOpen) {
-      emits('open', props.items[key])
-      internalOpenItems.value.push(key)
+      emits("open", props.items[key]);
+      internalOpenItems.value.push(key);
     }
 
-    return
+    return;
   }
 
   if (wasOpen) {
-    internalOpenItems.value.splice(internalOpenItems.value.indexOf(key), 1)
+    internalOpenItems.value.splice(internalOpenItems.value.indexOf(key), 1);
   } else {
-    emits('open', props.items[key])
-    internalOpenItems.value.push(key)
+    emits("open", props.items[key]);
+    internalOpenItems.value.push(key);
   }
-}
+};
 </script>
 
 <template>

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useNinjaId } from "../../composables/input-id";
+import { useNuiDefaultProperty } from "../../composables/default-property";
 import IconCheck from "../icon/IconCheck.vue";
+import { ref } from "@rootnode/vue";
 
 defineOptions({
   inheritAttrs: false,

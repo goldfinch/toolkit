@@ -1,34 +1,36 @@
 <script setup lang="ts" generic="T extends unknown = boolean">
+import { useNinjaId } from "../../composables/input-id";
+import { ref } from "@rootnode/vue";
 defineOptions({
   inheritAttrs: false,
-})
+});
 
 const props = withDefaults(
   defineProps<{
     /**
      * Defines the value of the checkbox when it's checked.
      */
-    value?: T
+    value?: T;
 
     /**
      * The value to set when the checkbox is checked.
      */
-    trueValue?: T
+    trueValue?: T;
 
     /**
      * The value to set when the checkbox is unchecked.
      */
-    falseValue?: T
+    falseValue?: T;
 
     /**
      * The form input identifier.
      */
-    id?: string
+    id?: string;
 
     /**
      * The label to display for the checkbox.
      */
-    label?: string
+    label?: string;
   }>(),
   {
     value: undefined,
@@ -36,17 +38,17 @@ const props = withDefaults(
     falseValue: false as any,
     id: undefined,
     label: undefined,
-  },
-)
+  }
+);
 
-const [modelValue] = defineModel<T | T[]>()
+const [modelValue] = defineModel<T | T[]>();
 
 defineSlots<{
-  default(props: { value: T | T[] | undefined }): any
-}>()
+  default(props: { value: T | T[] | undefined }): any;
+}>();
 
-const inputRef = ref<HTMLInputElement>()
-const id = useNinjaId(() => props.id)
+const inputRef = ref<HTMLInputElement>();
+const id = useNinjaId(() => props.id);
 
 defineExpose({
   /**
@@ -58,7 +60,7 @@ defineExpose({
    * The internal id of the radio input.
    */
   id,
-})
+});
 </script>
 
 <template>
@@ -79,9 +81,10 @@ defineExpose({
         :true-value="props.trueValue"
         :false-value="props.falseValue"
         v-bind="$attrs"
-        class="peer absolute inset-0 z-20 size-full cursor-pointer appearance-none"
+        class="peer absolute inset-0 z-20 size-full cursor-pointer opacity-0"
         type="checkbox"
       />
+      <!-- class: appearance-none replaced with opacity-0 -->
       <slot v-bind="{ value: modelValue }"></slot>
     </div>
   </div>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
 const props = withDefaults(
   defineProps<{
     /**
@@ -8,21 +10,21 @@ const props = withDefaults(
       /**
        * The label to display for the tab
        */
-      label: string
+      label: string;
       /**
        * The value of the tab. This value will be used to identify the tab when it is selected.
        */
-      value: string
+      value: string;
       /**
        * An optional icon to display next to the tab label
        */
-      icon?: string
-    }[]
+      icon?: string;
+    }[];
 
     /**
      * Whether or not to hide the label for the tab.
      */
-    hideLabel?: boolean
+    hideLabel?: boolean;
 
     /**
      * Defines the hover color of the active tab
@@ -30,21 +32,21 @@ const props = withDefaults(
      * @since 3.0.0
      * @default 'default'
      */
-    color?: 'default' | 'primary' | 'light' | 'dark' | 'black'
+    color?: "default" | "primary" | "light" | "dark" | "black";
 
     /**
      * The horizontal alignment of the tabs.
      *
      * @default 'start'
      */
-    justify?: 'start' | 'center' | 'end'
+    justify?: "start" | "center" | "end";
 
     /**
      * The type of tabs to display..
      *
      * @default 'tabs'
      */
-    type?: 'tabs' | 'box'
+    type?: "tabs" | "box";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -53,67 +55,67 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the inner element.
        */
-      inner?: string | string[]
+      inner?: string | string[];
 
       /**
        * CSS classes to apply to the item element.
        */
-      item?: string | string[]
+      item?: string | string[];
 
       /**
        * CSS classes to apply to the content element.
        */
-      content?: string | string[]
-    }
+      content?: string | string[];
+    };
   }>(),
   {
     type: undefined,
     justify: undefined,
     color: undefined,
     classes: () => ({}),
-  },
-)
+  }
+);
 
 const [modelValue] = defineModel<string>({
   default: null,
-})
+});
 
-const color = useNuiDefaultProperty(props, 'BaseTabs', 'color')
-const justify = useNuiDefaultProperty(props, 'BaseTabs', 'justify')
-const type = useNuiDefaultProperty(props, 'BaseTabs', 'type')
+const color = useNuiDefaultProperty(props, "BaseTabs", "color");
+const justify = useNuiDefaultProperty(props, "BaseTabs", "justify");
+const type = useNuiDefaultProperty(props, "BaseTabs", "type");
 
 onBeforeMount(() => {
   if (modelValue.value === null) {
-    modelValue.value = props.tabs[0]?.value
+    modelValue.value = props.tabs[0]?.value;
   }
-})
+});
 
 const justifies = {
-  start: '',
-  center: 'nui-tabs-centered',
-  end: 'nui-tabs-end',
-}
+  start: "",
+  center: "nui-tabs-centered",
+  end: "nui-tabs-end",
+};
 
 const types = {
-  tabs: 'nui-tab-item',
-  box: 'nui-pill-item',
-}
+  tabs: "nui-tab-item",
+  box: "nui-pill-item",
+};
 
 const colors = {
-  default: 'nui-tabs-default',
-  primary: 'nui-tabs-primary',
-  light: 'nui-tabs-light',
-  dark: 'nui-tabs-dark',
-  black: 'nui-tabs-black',
-}
+  default: "nui-tabs-default",
+  primary: "nui-tabs-primary",
+  light: "nui-tabs-light",
+  dark: "nui-tabs-dark",
+  black: "nui-tabs-black",
+};
 
 function toggle(value: string) {
-  modelValue.value = value
+  modelValue.value = value;
 }
 </script>
 
@@ -147,7 +149,7 @@ function toggle(value: string) {
           :icon-name="tab.icon"
           :toggle="toggle"
         >
-          <Icon :name="tab.icon" class="me-1 block size-5" />
+          <Icon :icon="tab.icon" class="me-1 block size-5" />
         </slot>
         <span
           :class="[

@@ -1,4 +1,5 @@
-import type { MaybeRefOrGetter } from 'vue'
+import type { MaybeRefOrGetter } from '@rootnode/vue'
+import { computed, toRef, ref } from "@rootnode/vue";
 
 const previewMap = new WeakMap<File, Ref<string | undefined>>()
 

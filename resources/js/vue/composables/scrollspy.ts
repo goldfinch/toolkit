@@ -1,4 +1,4 @@
-import type { MaybeRefOrGetter } from 'vue'
+import type { MaybeRefOrGetter } from '@rootnode/vue'
 
 /**
  * Scrollspy allows you to watch visible headings in a specific page.

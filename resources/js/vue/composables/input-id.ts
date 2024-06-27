@@ -1,5 +1,5 @@
-import type { MaybeRefOrGetter } from 'vue'
-import { ref, toValue, watch, onMounted, readonly } from 'vue'
+import type { MaybeRefOrGetter } from '@rootnode/vue'
+import { ref, toValue, watch, onMounted, readonly } from '@rootnode/vue'
 export function useNinjaId(id?: MaybeRefOrGetter<string | undefined>) {
   const internal = ref(toValue(id))
 

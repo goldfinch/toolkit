@@ -1,15 +1,18 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { Icon } from "@rootnode/@iconify/vue";
+import { computed } from "@rootnode/vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The message to display.
      */
-    message?: string
+    message?: string;
 
     /**
      * Whether to show an icon, or the name of the icon to display.
      */
-    icon?: boolean | string
+    icon?: boolean | string;
 
     /**
      * Default icons to apply to the messages, when the icon is active.
@@ -18,58 +21,58 @@ const props = withDefaults(
       /**
        * The default default icon
        */
-      default?: string
+      default?: string;
 
       /**
        * The default default contrast icon
        */
-      'default-contrast'?: string
+      "default-contrast"?: string;
 
       /**
        * The default muted icon
        */
-      muted?: string
+      muted?: string;
 
       /**
        * The default muted contrast icon
        */
-      'muted-contrast'?: string
+      "muted-contrast"?: string;
 
       /**
        * The default info icon
        */
-      info?: string
+      info?: string;
 
       /**
        * The default success icon
        */
-      success?: string
+      success?: string;
 
       /**
        * The default warning icon
        */
-      warning?: string
+      warning?: string;
 
       /**
        * The default danger icon
        */
-      danger?: string
+      danger?: string;
 
       /**
        * The default primary icon
        */
-      primary?: string
-    }
+      primary?: string;
+    };
 
     /**
      * The icon to show in the close button
      */
-    closeIcon?: string
+    closeIcon?: string;
 
     /**
      * Whether to show a close button.
      */
-    closable?: boolean
+    closable?: boolean;
 
     /**
      * The color of the message.
@@ -77,22 +80,22 @@ const props = withDefaults(
      * @default 'default'
      */
     color?:
-      | 'default'
-      | 'default-contrast'
-      | 'muted'
-      | 'muted-contrast'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
+      | "default"
+      | "default-contrast"
+      | "muted"
+      | "muted-contrast"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger";
 
     /**
      * The radius of the message.
      *
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * Optional CSS classes to apply to the component inner elements.
@@ -101,64 +104,64 @@ const props = withDefaults(
       /**
        * CSS classes to apply to the wrapper element.
        */
-      wrapper?: string | string[]
+      wrapper?: string | string[];
 
       /**
        * CSS classes to apply to the icon element.
        */
-      icon?: string | string[]
+      icon?: string | string[];
 
       /**
        * CSS classes to apply to the text element.
        */
-      text?: string | string[]
-    }
+      text?: string | string[];
+    };
   }>(),
   {
     color: undefined,
     rounded: undefined,
-    message: '',
+    message: "",
     icon: false,
-    closeIcon: 'lucide:x',
+    closeIcon: "lucide:x",
     classes: () => ({}),
     defaultIcons: undefined,
-  },
-)
+  }
+);
 const emit = defineEmits<{
-  close: []
-}>()
+  close: [];
+}>();
 
-const color = useNuiDefaultProperty(props, 'BaseMessage', 'color')
-const rounded = useNuiDefaultProperty(props, 'BaseMessage', 'rounded')
-const icons = useNuiDefaultProperty(props, 'BaseMessage', 'defaultIcons')
+const color = useNuiDefaultProperty(props, "BaseMessage", "color");
+const rounded = useNuiDefaultProperty(props, "BaseMessage", "rounded");
+const icons = useNuiDefaultProperty(props, "BaseMessage", "defaultIcons");
 
 const radiuses = {
-  none: '',
-  sm: 'nui-message-rounded-sm',
-  md: 'nui-message-rounded-md',
-  lg: 'nui-message-rounded-lg',
-  full: 'nui-message-rounded-full',
-}
+  none: "",
+  sm: "nui-message-rounded-sm",
+  md: "nui-message-rounded-md",
+  lg: "nui-message-rounded-lg",
+  full: "nui-message-rounded-full",
+};
 
 const colors = {
-  default: 'nui-message-default',
-  'default-contrast': 'nui-message-default-contrast',
-  muted: 'nui-message-muted',
-  'muted-contrast': 'nui-message-muted-contrast',
-  primary: 'nui-message-primary',
-  info: 'nui-message-info',
-  success: 'nui-message-success',
-  warning: 'nui-message-warning',
-  danger: 'nui-message-danger',
-}
+  default: "nui-message-default",
+  "default-contrast": "nui-message-default-contrast",
+  muted: "nui-message-muted",
+  "muted-contrast": "nui-message-muted-contrast",
+  primary: "nui-message-primary",
+  info: "nui-message-info",
+  success: "nui-message-success",
+  warning: "nui-message-warning",
+  danger: "nui-message-danger",
+};
 
 const icon = computed(() =>
-  typeof props.icon === 'string'
+  typeof props.icon === "string"
     ? props.icon
     : color.value
-      ? icons.value[color.value]
-      : '',
-)
+    ? icons.value[color.value]
+    : ""
+);
 </script>
 
 <template>
@@ -177,7 +180,7 @@ const icon = computed(() =>
       :class="classes?.icon"
     >
       <slot name="icon" icon-name="icon">
-        <Icon v-if="icon" :name="icon" class="nui-message-icon" />
+        <Icon v-if="icon" :icon="icon" class="nui-message-icon" />
       </slot>
     </div>
     <span class="nui-message-inner-text" :class="classes?.text">
@@ -192,7 +195,7 @@ const icon = computed(() =>
         @click="emit('close')"
       >
         <slot name="close-button">
-          <Icon :name="closeIcon" class="nui-close-icon" />
+          <Icon :icon="closeIcon" class="nui-close-icon" />
         </slot>
       </button>
     </div>

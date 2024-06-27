@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import type { RouteLocationRaw } from 'vue-router'
+import { useNuiDefaultProperty } from "../../composables/default-property";
+// import type { RouteLocationRaw } from "vue-router";
+import { computed } from "@rootnode/vue";
+
+import BasePlaceload from "../base/BasePlaceload.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -7,38 +11,38 @@ const props = withDefaults(
      * The route to navigate to when the button or link is clicked.
      * If this is set and the `type` property is not set, the component will be treated as a link.
      */
-    to?: RouteLocationRaw
+    to?: string; // RouteLocationRaw;
 
     /** Using href instead of to result in a native anchor with no router functionality. */
-    href?: string
+    href?: string;
 
     /**
      * The value for the `rel` attribute on the button or link.
      * This property is only relevant for links.
      */
-    rel?: string
+    rel?: string;
 
     /**
      * The value for the `target` attribute on the button or link.
      * This property is only relevant for links.
      */
-    target?: string
+    target?: string;
 
     /**
      * The type of button.
      * If this is not set and the `to` property is set, the component will be treated as a link.
      */
-    type?: 'button' | 'submit' | 'reset'
+    type?: "button" | "submit" | "reset";
 
     /**
      * Whether the button or link is in a loading state.
      */
-    loading?: boolean
+    loading?: boolean;
 
     /**
      * Whether the button or link is disabled.
      */
-    disabled?: boolean
+    disabled?: boolean;
 
     /**
      * The color of the button.
@@ -46,19 +50,19 @@ const props = withDefaults(
      * @default 'default'
      */
     color?:
-      | 'default'
-      | 'default-contrast'
-      | 'muted'
-      | 'muted-contrast'
-      | 'light'
-      | 'dark'
-      | 'black'
-      | 'primary'
-      | 'info'
-      | 'success'
-      | 'warning'
-      | 'danger'
-      | 'none'
+      | "default"
+      | "default-contrast"
+      | "muted"
+      | "muted-contrast"
+      | "light"
+      | "dark"
+      | "black"
+      | "primary"
+      | "info"
+      | "success"
+      | "warning"
+      | "danger"
+      | "none";
 
     /**
      * The radius of the button or link.
@@ -66,71 +70,71 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The size of the button.
      *
      * @default 'md'
      */
-    size?: 'sm' | 'md' | 'lg' | 'xl'
+    size?: "sm" | "md" | "lg" | "xl";
   }>(),
   {
     to: undefined,
     href: undefined,
-    rel: '',
-    target: '',
+    rel: "",
+    target: "",
     type: undefined,
     size: undefined,
     color: undefined,
     rounded: undefined,
-  },
-)
+  }
+);
 
-const color = useNuiDefaultProperty(props, 'BaseButtonIcon', 'color')
-const rounded = useNuiDefaultProperty(props, 'BaseButtonIcon', 'rounded')
-const size = useNuiDefaultProperty(props, 'BaseButtonIcon', 'size')
+const color = useNuiDefaultProperty(props, "BaseButtonIcon", "color");
+const rounded = useNuiDefaultProperty(props, "BaseButtonIcon", "rounded");
+const size = useNuiDefaultProperty(props, "BaseButtonIcon", "size");
 
 const radiuses = {
-  none: '',
-  sm: 'nui-button-rounded-sm',
-  md: 'nui-button-rounded-md',
-  lg: 'nui-button-rounded-lg',
-  full: 'nui-button-rounded-full',
-}
+  none: "",
+  sm: "nui-button-rounded-sm",
+  md: "nui-button-rounded-md",
+  lg: "nui-button-rounded-lg",
+  full: "nui-button-rounded-full",
+};
 
 const sizes = {
-  sm: 'nui-button-sm',
-  md: 'nui-button-md',
-  lg: 'nui-button-lg',
-  xl: 'nui-button-xl',
-}
+  sm: "nui-button-sm",
+  md: "nui-button-md",
+  lg: "nui-button-lg",
+  xl: "nui-button-xl",
+};
 
 const colors = {
-  default: 'nui-button-default',
-  'default-contrast': 'nui-button-default-contrast',
-  muted: 'nui-button-muted',
-  'muted-contrast': 'nui-button-muted-contrast',
-  light: 'nui-button-light',
-  dark: 'nui-button-dark',
-  black: 'nui-button-black',
-  primary: 'nui-button-primary',
-  info: 'nui-button-info',
-  success: 'nui-button-success',
-  warning: 'nui-button-warning',
-  danger: 'nui-button-danger',
-  none: '',
-}
+  default: "nui-button-default",
+  "default-contrast": "nui-button-default-contrast",
+  muted: "nui-button-muted",
+  "muted-contrast": "nui-button-muted-contrast",
+  light: "nui-button-light",
+  dark: "nui-button-dark",
+  black: "nui-button-black",
+  primary: "nui-button-primary",
+  info: "nui-button-info",
+  success: "nui-button-success",
+  warning: "nui-button-warning",
+  danger: "nui-button-danger",
+  none: "",
+};
 
 const classes = computed(() => [
-  'nui-button-icon',
-  props.loading && 'nui-button-loading',
+  "nui-button-icon",
+  props.loading && "nui-button-loading",
   rounded.value && radiuses[rounded.value],
   size.value && sizes[size.value],
   color.value && colors[color.value],
-])
+]);
 
-const { attributes, is } = useNinjaButton(props)
+const { attributes, is } = useNinjaButton(props);
 </script>
 
 <template>

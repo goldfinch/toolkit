@@ -1,6 +1,7 @@
-import type { MaybeRefOrGetter } from 'vue'
+import type { MaybeRefOrGetter } from '@rootnode/vue'
 // eslint-disable-next-line vue/prefer-import-from-vue
 import { escapeHtml } from '@vue/shared'
+import { computed } from "@rootnode/vue";
 
 export function useNinjaMark(
   _text?: MaybeRefOrGetter<string | undefined>,

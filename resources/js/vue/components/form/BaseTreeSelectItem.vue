@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import { computed } from "@rootnode/vue";
+import { Icon } from "@rootnode/@iconify/vue";
+import BaseAvatar from "../base/BaseAvatar.vue";
+import BaseIconBox from "../base/BaseIconBox.vue";
+import BaseText from "../base/BaseText.vue";
+
 const props = withDefaults(
   defineProps<{
     /**
@@ -8,33 +15,33 @@ const props = withDefaults(
       /**
        * The name of the item.
        */
-      name?: string
+      name?: string;
 
       /**
        * Optional text to display for the item.
        */
-      text?: string
+      text?: string;
 
       /**
        * Optional media (such as an image URL) to display for the item.
        */
-      media?: string
+      media?: string;
 
       /**
        * Optional icon to display for the item.
        */
-      icon?: string
-    }
+      icon?: string;
+    };
 
     /**
      * The level in the tree of the item.
      */
-    level?: number
+    level?: number;
 
     /**
      * Action triggered when the item is clicked.
      */
-    toggle?: () => void
+    toggle?: () => void;
 
     /**
      * The radius of the component.
@@ -42,37 +49,37 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
   }>(),
   {
     value: () => ({}),
     level: 1,
     toggle: undefined,
     rounded: undefined,
-  },
-)
+  }
+);
 
-const rounded = useNuiDefaultProperty(props, 'BaseTreeSelectItem', 'rounded')
+const rounded = useNuiDefaultProperty(props, "BaseTreeSelectItem", "rounded");
 
 const wrapperTag = computed(() => {
   if (!props.toggle) {
-    return 'div'
+    return "div";
   }
 
-  return 'button'
-})
+  return "button";
+});
 
 const wrapperProps = computed(() => {
   if (!props.toggle) {
-    return {}
+    return {};
   }
 
   return {
-    type: 'button',
+    type: "button",
     onClick: props.toggle,
-    class: 'nui-focus',
-  }
-})
+    class: "nui-focus",
+  };
+});
 </script>
 
 <template>
@@ -102,7 +109,7 @@ const wrapperProps = computed(() => {
         class="me-2"
       >
         <slot name="item-icon">
-          <Icon :name="props.value.icon" class="size-4" />
+          <Icon :icon="props.value.icon" class="size-4" />
         </slot>
       </BaseIconBox>
       <div class="flex flex-col items-start">

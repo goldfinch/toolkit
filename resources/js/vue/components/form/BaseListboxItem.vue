@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { Icon } from "@rootnode/@iconify/vue";
+import BaseHeading from "../base/BaseHeading.vue";
+import BaseIconBox from "../base/BaseIconBox.vue";
+import BaseText from "../base/BaseText.vue";
+import BaseAvatar from "../base/BaseAvatar.vue";
 const props = withDefaults(
   defineProps<{
     /**
@@ -8,49 +13,49 @@ const props = withDefaults(
       /**
        * Internal value of the item.
        */
-      value?: any
+      value?: any;
 
       /**
        * Optional label to display instead of the value.
        */
-      label?: string
+      label?: string;
 
       /**
        * Optional sublabel to display for the item.
        */
-      sublabel?: string
+      sublabel?: string;
 
       /**
        * Optional media (such as an image URL) to display for the item.
        */
-      media?: string
+      media?: string;
 
       /**
        * Optional icon to display for the item.
        */
-      icon?: string
-    }
+      icon?: string;
+    };
 
     /**
      * The icon to show when the component is selected.
      */
-    selectedIcon?: string
+    selectedIcon?: string;
 
     /**
      * Whether the item is focus/hover or not.
      */
-    active?: boolean
+    active?: boolean;
 
     /**
      * Whether the item is selected or not.
      */
-    selected?: boolean
+    selected?: boolean;
   }>(),
   {
-    selectedIcon: 'lucide:check',
+    selectedIcon: "lucide:check",
     value: () => ({}),
-  },
-)
+  }
+);
 </script>
 
 <template>
@@ -62,7 +67,7 @@ const props = withDefaults(
     class="!me-0 !bg-transparent"
   >
     <Icon
-      :name="props.value.icon"
+      :icon="props.value.icon"
       class="text-muted-400 group-hover/nui-listbox-option:text-primary-500 size-5 transition-colors duration-200"
     />
   </BaseIconBox>
@@ -81,6 +86,6 @@ const props = withDefaults(
     </BaseText>
   </div>
   <span v-if="selected" class="nui-listbox-selected-icon">
-    <Icon :name="selectedIcon" class="nui-listbobx-selected-icon-inner" />
+    <Icon :icon="selectedIcon" class="nui-listbobx-selected-icon-inner" />
   </span>
 </template>

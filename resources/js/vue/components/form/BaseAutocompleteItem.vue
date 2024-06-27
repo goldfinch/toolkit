@@ -1,30 +1,37 @@
 <script setup lang="ts" generic="T extends object">
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import BaseHeading from '../base/BaseHeading.vue'
+import { computed } from "@rootnode/vue";
+import { Icon } from "@rootnode/@iconify/vue";
+import BaseAvatar from "../base/BaseAvatar.vue";
+import BaseIconBox from "../base/BaseIconBox.vue";
+import BaseText from "../base/BaseText.vue";
 const props = withDefaults(
   defineProps<{
     /**
      * The items to display in the component.
      */
-    item?: T
+    item?: T;
 
     /**
      * The icon to show when the component is selected.
      */
-    selectedIcon?: string
+    selectedIcon?: string;
 
     /**
      * Whether the item is focus/hover or not.
      */
-    active?: boolean
+    active?: boolean;
 
     /**
      * Whether the item is selected or not.
      */
-    selected?: boolean
+    selected?: boolean;
 
     /**
      * CSS Class applied to the matching part of the text.
      */
-    mark?: string
+    mark?: string;
 
     /**
      * The radius of the component.
@@ -32,7 +39,7 @@ const props = withDefaults(
      * @since 2.0.0
      * @default 'sm'
      */
-    rounded?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+    rounded?: "none" | "sm" | "md" | "lg" | "full";
 
     /**
      * The properties to use for the value, label, sublabel, media, and icon of the options items.
@@ -41,97 +48,97 @@ const props = withDefaults(
       /**
        * The property to use for the label of the options.
        */
-      label?: T extends object ? keyof T | ((arg: T) => string) : string
+      label?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the sublabel of the options.
        */
-      sublabel?: T extends object ? keyof T | ((arg: T) => string) : string
+      sublabel?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the media of the options.
        */
-      media?: T extends object ? keyof T | ((arg: T) => string) : string
+      media?: T extends object ? keyof T | ((arg: T) => string) : string;
 
       /**
        * The property to use for the icon of the options.
        */
-      icon?: T extends object ? keyof T | ((arg: T) => string) : string
-    }
+      icon?: T extends object ? keyof T | ((arg: T) => string) : string;
+    };
   }>(),
   {
     item: undefined,
     rounded: undefined,
-    mark: 'nui-mark',
-    selectedIcon: 'lucide:check',
+    mark: "nui-mark",
+    selectedIcon: "lucide:check",
     properties: () =>
       ({
-        label: 'label',
-        sublabel: 'sublabel',
-        media: 'media',
-        icon: 'icon',
-      }) as any,
-  },
-)
+        label: "label",
+        sublabel: "sublabel",
+        media: "media",
+        icon: "icon",
+      } as any),
+  }
+);
 
 defineSlots<{
-  'selected-icon'(): any
-}>()
+  "selected-icon"(): any;
+}>();
 
-const rounded = useNuiDefaultProperty(props, 'BaseAutocompleteItem', 'rounded')
+const rounded = useNuiDefaultProperty(props, "BaseAutocompleteItem", "rounded");
 
 const radiuses = {
-  none: '',
-  sm: 'rounded-md',
-  md: 'rounded-lg',
-  lg: 'rounded-xl',
-  full: 'rounded-xl',
-}
+  none: "",
+  sm: "rounded-md",
+  md: "rounded-lg",
+  lg: "rounded-xl",
+  full: "rounded-xl",
+};
 
-const inputContext = inject('BaseAutocompleteContext', {
-  query: '',
-})
+const inputContext = inject("BaseAutocompleteContext", {
+  query: "",
+});
 
 const label = computed(() => {
-  if (props.item == null || props.properties == null) return
-  if (typeof props.properties.label === 'string')
-    return (props.item as any)[props.properties.label]
-  if (typeof props.properties.label === 'function')
-    return props.properties.label(props.item)
-  return
-})
+  if (props.item == null || props.properties == null) return;
+  if (typeof props.properties.label === "string")
+    return (props.item as any)[props.properties.label];
+  if (typeof props.properties.label === "function")
+    return props.properties.label(props.item);
+  return;
+});
 
 const sublabel = computed(() => {
-  if (props.item == null || props.properties == null) return
-  if (typeof props.properties.sublabel === 'string')
-    return (props.item as any)[props.properties.sublabel]
-  if (typeof props.properties.sublabel === 'function')
-    return props.properties.sublabel(props.item)
-  return
-})
+  if (props.item == null || props.properties == null) return;
+  if (typeof props.properties.sublabel === "string")
+    return (props.item as any)[props.properties.sublabel];
+  if (typeof props.properties.sublabel === "function")
+    return props.properties.sublabel(props.item);
+  return;
+});
 
 const media = computed(() => {
-  if (props.item == null || props.properties == null) return
-  if (typeof props.properties.media === 'string')
-    return (props.item as any)[props.properties.media]
-  if (typeof props.properties.media === 'function')
-    return props.properties.media(props.item)
-  return
-})
+  if (props.item == null || props.properties == null) return;
+  if (typeof props.properties.media === "string")
+    return (props.item as any)[props.properties.media];
+  if (typeof props.properties.media === "function")
+    return props.properties.media(props.item);
+  return;
+});
 
 const icon = computed(() => {
-  if (props.item == null || props.properties == null) return
-  if (typeof props.properties.icon === 'string')
-    return (props.item as any)[props.properties.icon]
-  if (typeof props.properties.icon === 'function')
-    return props.properties.icon(props.item)
-  return
-})
+  if (props.item == null || props.properties == null) return;
+  if (typeof props.properties.icon === "string")
+    return (props.item as any)[props.properties.icon];
+  if (typeof props.properties.icon === "function")
+    return props.properties.icon(props.item);
+  return;
+});
 
-const query = computed(() => inputContext.query)
-const mark = computed(() => props.mark)
-const markedLabel = useNinjaMark(() => label.value, query, mark)
-const markedSublabel = useNinjaMark(() => sublabel.value, query, mark)
+const query = computed(() => inputContext.query);
+const mark = computed(() => props.mark);
+const markedLabel = useNinjaMark(() => label.value, query, mark);
+const markedSublabel = useNinjaMark(() => sublabel.value, query, mark);
 </script>
 
 <template>
@@ -151,7 +158,7 @@ const markedSublabel = useNinjaMark(() => sublabel.value, query, mark)
       class="me-1"
     >
       <Icon
-        :name="icon"
+        :icon="icon"
         class="size-4"
         :class="[props.selected ? 'text-primary-500' : 'text-muted-500']"
       />
@@ -177,7 +184,7 @@ const markedSublabel = useNinjaMark(() => sublabel.value, query, mark)
       :class="[media && 'size-8', icon && 'size-8']"
     >
       <slot name="selected-icon">
-        <Icon :name="selectedIcon" class="text-success-500 block size-4" />
+        <Icon :icon="selectedIcon" class="text-success-500 block size-4" />
       </slot>
     </div>
   </div>
