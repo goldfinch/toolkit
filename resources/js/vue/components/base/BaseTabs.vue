@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { Icon } from "@rootnode/@iconify/vue";
+import { onBeforeMount } from "@rootnode/vue";
 const props = withDefaults(
   defineProps<{
     /**

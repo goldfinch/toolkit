@@ -1,4 +1,6 @@
 <script lang="ts">
+import { defineComponent, h } from "@rootnode/vue";
+
 export default defineComponent({
   props: {
     /**
@@ -18,26 +20,26 @@ export default defineComponent({
   },
   setup(props, { slots }) {
     return () => {
-      const ordered = props.ordered ? 'nui-list-ol' : 'nui-list-ul'
-      const children = slots.default?.()
+      const ordered = props.ordered ? "nui-list-ol" : "nui-list-ul";
+      const children = slots.default?.();
       const hasMedia =
         props.media ??
         children?.some((vnode) => {
-          return typeof vnode.type !== 'string'
-        })
+          return typeof vnode.type !== "string";
+        });
 
       return h(
-        props.ordered ? 'ol' : 'ul',
+        props.ordered ? "ol" : "ul",
         {
           class: [
-            'nui-list',
-            hasMedia && 'nui-list-media',
+            "nui-list",
+            hasMedia && "nui-list-media",
             !hasMedia && `nui-list-base ${ordered}`,
           ],
         },
-        children,
-      )
-    }
+        children
+      );
+    };
   },
-})
+});
 </script>

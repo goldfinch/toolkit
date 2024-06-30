@@ -14,18 +14,19 @@
     "author": "Art Karasev <art.karasev@proton.me>",
     "license": "ISC",
     "devDependencies": {
-        "@iconify/vue": "^4.1.2",
-        "@vee-validate/zod": "^4.12.4",
-        "axios": "^1.7.2",
-        "moveto": "^1.8.2",
-        "recaptcha-v3": "^1.10.0",
-        "vee-validate": "^4.12.4",
-        "zod": "^3.22.4",
         "@formkit/addons": "^1.6.5",
         "@formkit/core": "^1.6.5",
         "@formkit/themes": "^1.6.5",
         "@formkit/vue": "^1.6.5",
+        "@iconify/vue": "^4.1.2",
+        "@vee-validate/zod": "^4.12.4",
+        "@vue/shared": "^3.4.31",
         "@vueuse/core": "^10.10.0",
-        "vue": "^3.4.27"
+        "axios": "^1.7.2",
+        "moveto": "^1.8.2",
+        "recaptcha-v3": "^1.10.0",
+        "vee-validate": "^4.12.4",
+        "vue": "^3.4.27",
+        "zod": "^3.22.4"
     }
 }

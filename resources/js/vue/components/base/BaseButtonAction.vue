@@ -2,6 +2,7 @@
 import { useNuiDefaultProperty } from "../../composables/default-property";
 // import type { RouteLocationRaw } from 'vue-router'
 import { computed } from "@rootnode/vue";
+import { useNinjaButton } from "../../composables/buttons";
 
 import BasePlaceload from "../base/BasePlaceload.vue";
 const props = withDefaults(

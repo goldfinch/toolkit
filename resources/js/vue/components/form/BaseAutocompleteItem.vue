@@ -1,11 +1,13 @@
 <script setup lang="ts" generic="T extends object">
-import { useNuiDefaultProperty } from "../../composables/default-property";
-import BaseHeading from '../base/BaseHeading.vue'
-import { computed } from "@rootnode/vue";
+import { useNinjaMark } from "../../composables/mark";
+import BaseHeading from "../base/BaseHeading.vue";
+import { computed, inject } from "@rootnode/vue";
 import { Icon } from "@rootnode/@iconify/vue";
 import BaseAvatar from "../base/BaseAvatar.vue";
 import BaseIconBox from "../base/BaseIconBox.vue";
 import BaseText from "../base/BaseText.vue";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+
 const props = withDefaults(
   defineProps<{
     /**

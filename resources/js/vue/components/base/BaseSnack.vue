@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { Icon } from "@rootnode/@iconify/vue";
+import BaseButtonClose from "../base/BaseButtonClose.vue";
 const props = withDefaults(
   defineProps<{
     /**

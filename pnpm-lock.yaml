@@ -26,6 +26,9 @@ importers:
       '@vee-validate/zod':
         specifier: ^4.12.4
         version: 4.13.1(vue@3.4.29)
+      '@vue/shared':
+        specifier: ^3.4.31
+        version: 3.4.31
       '@vueuse/core':
         specifier: ^10.10.0
         version: 10.11.0(vue@3.4.29)
@@ -164,6 +167,9 @@ packages:
 
   '@vue/shared@3.4.29':
     resolution: {integrity: sha512-hQ2gAQcBO/CDpC82DCrinJNgOHI2v+FA7BDW4lMSPeBpQ7sRe2OLHWe5cph1s7D8DUQAwRt18dBDfJJ220APEA==}
+
+  '@vue/shared@3.4.31':
+    resolution: {integrity: sha512-Yp3wtJk//8cO4NItOPpi3QkLExAr/aLBGZMmTtW9WpdwBCJpRM6zj9WgWktXAl8IDIozwNMByT45JP3tO3ACWA==}
 
   '@vueuse/core@10.11.0':
     resolution: {integrity: sha512-x3sD4Mkm7PJ+pcq3HX8PLPBadXCAlSDR/waK87dz0gQE+qJnaaFhc/dZVfJz+IUYzTMVGum2QlR7ImiJQN4s6g==}
@@ -442,6 +448,8 @@ snapshots:
       vue: 3.4.29
 
   '@vue/shared@3.4.29': {}
+
+  '@vue/shared@3.4.31': {}
 
   '@vueuse/core@10.11.0(vue@3.4.29)':
     dependencies:

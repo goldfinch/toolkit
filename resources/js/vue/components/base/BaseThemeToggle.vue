@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { useColorMode } from "@rootnode/@vueuse/core";
 import { useNinjaId } from "../../composables/input-id";
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { computed } from "@rootnode/vue";
+import IconSun from "../icon/IconSun.vue";
+import IconMoon from "../icon/IconMoon.vue";
 const props = withDefaults(
   defineProps<{
     /**

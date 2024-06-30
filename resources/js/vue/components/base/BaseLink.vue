@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { Link } from "@rootnode/@inertiajs/vue3";
+
 /* eslint-disable vue/require-prop-comment */
 // import type { RouteLocationRaw } from '#vue-router'
 
 // We can't use exported types from `#app` because vue doesn't support it yet.
 type NuxtLinkProps = {
-  to?: string // RouteLocationRaw;
-  href?: string // RouteLocationRaw;
+  to?: string; // RouteLocationRaw;
+  href?: string; // RouteLocationRaw;
   external?: boolean;
   replace?: boolean;
   custom?: boolean;
@@ -30,11 +32,11 @@ const props = withDefaults(defineProps<NuxtLinkProps>(), {
   exactActiveClass: undefined,
   ariaCurrentValue: undefined,
 });
-const NuxtLink = defineNuxtLink({});
+// const NuxtLink = defineNuxtLink({});
 </script>
 
 <template>
-  <component :is="NuxtLink" class="nui-link" v-bind="props as any">
+  <component :is="Link" class="nui-link" v-bind="props as any">
     <slot />
   </component>
 </template>

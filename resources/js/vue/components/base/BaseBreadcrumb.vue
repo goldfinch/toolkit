@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { Link } from "@rootnode/@inertiajs/vue3";
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { Icon } from "@rootnode/@iconify/vue";
 // import type { RouteLocationRaw } from "vue-router";
 import { computed } from "@rootnode/vue";
+import BaseDropdownItem from "../base/BaseDropdownItem.vue";
+import BaseDropdown from "../base/BaseDropdown.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -81,8 +84,8 @@ const props = withDefaults(
 
 const color = useNuiDefaultProperty(props, "BaseBreadcrumb", "color");
 
-const route = useRoute();
-const router = useRouter();
+// const route = useRoute();
+// const router = useRouter();
 
 const items = computed(() => {
   if (props.items) {
@@ -90,7 +93,7 @@ const items = computed(() => {
   }
 
   const breadcrumbItems: any[] = [];
-  const indexRoute = router.resolve("/");
+  const indexRoute = "/"; //router.resolve("/");
 
   if (indexRoute.meta.breadcrumb === false) {
     // skip breadcrumb item
@@ -165,8 +168,8 @@ const colors = {
           ]"
         >
           <slot name="link" v-bind="{ item, index }">
-            <NuxtLink
-              :to="item.to"
+            <Link
+              :href="item.to"
               class="nui-item-inner"
               :class="[item.to && 'nui-has-link']"
             >
@@ -183,7 +186,7 @@ const colors = {
                   {{ item.label }}
                 </span>
               </slot>
-            </NuxtLink>
+            </Link>
           </slot>
         </li>
         <li class="nui-breadcrumb-item">

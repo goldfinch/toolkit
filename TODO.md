@@ -1,0 +1,2 @@
+- app.config default components props
+- import tailwindcss from components (only used ones)

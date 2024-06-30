@@ -2,7 +2,7 @@
 import { useNinjaId } from "../../composables/input-id";
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import IconCheckCircle from "../icon/IconCheckCircle.vue";
-import { ref, computed } from "@rootnode/vue";
+import { ref, computed, watchEffect, onScopeDispose } from "@rootnode/vue";
 
 defineOptions({
   inheritAttrs: false,

@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { Link } from "@rootnode/@inertiajs/vue3";
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { Icon } from "@rootnode/@iconify/vue";
 // import type { RouteLocationRaw } from "vue-router";
 import { computed } from "@rootnode/vue";
+import BaseFocusLoop from "../base/BaseFocusLoop.vue";
 
 const props = withDefaults(
   defineProps<{
@@ -135,7 +137,7 @@ const colors = {
   black: "nui-pagination-black",
 };
 
-const route = useRoute();
+// const route = useRoute();
 const lastPage = computed(
   () => Math.ceil(props.totalItems / props.itemPerPage) || 1
 );
@@ -182,7 +184,7 @@ const paginatedLink = (page = 1) => {
 
   const _page = Math.max(1, Math.min(page, lastPage.value));
   const query: any = {
-    ...route.query,
+    // ...route.query,
   };
 
   if (props.routerQueryKey) {
@@ -223,8 +225,8 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
       <slot name="before-pagination"></slot>
       <!-- Link -->
       <li>
-        <NuxtLink
-          :to="paginatedLink(1)"
+        <Link
+          :href="paginatedLink(1)"
           tabindex="0"
           class="nui-pagination-link"
           :class="[
@@ -236,7 +238,7 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
           @click="(e: any) => handleLinkClick(e, 1)"
         >
           1
-        </NuxtLink>
+        </Link>
       </li>
 
       <!-- Ellipsis -->
@@ -251,8 +253,8 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
 
       <!-- Link -->
       <li v-for="page in pages" :key="page">
-        <NuxtLink
-          :to="paginatedLink(page)"
+        <Link
+          :href="paginatedLink(page)"
           tabindex="0"
           :aria-current="currentPage === page ? 'page' : undefined"
           class="nui-pagination-link"
@@ -265,7 +267,7 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
           @click="(e: any) => handleLinkClick(e, page)"
         >
           {{ page }}
-        </NuxtLink>
+        </Link>
       </li>
 
       <!-- Ellipsis -->
@@ -280,8 +282,8 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
 
       <!-- Link -->
       <li v-if="showLastLink">
-        <NuxtLink
-          :to="paginatedLink(lastPage)"
+        <Link
+          :href="paginatedLink(lastPage)"
           tabindex="0"
           class="nui-pagination-link"
           :class="[
@@ -293,7 +295,7 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
           @click="(e: any) => handleLinkClick(e, lastPage)"
         >
           {{ lastPage }}
-        </NuxtLink>
+        </Link>
       </li>
       <slot name="after-pagination"></slot>
     </BaseFocusLoop>
@@ -305,8 +307,8 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
       <slot name="before-navigation"></slot>
 
       <!-- Previous -->
-      <NuxtLink
-        :to="paginatedLink(currentPage - 1)"
+      <Link
+        :href="paginatedLink(currentPage - 1)"
         tabindex="0"
         class="nui-pagination-button"
         :class="props.classes?.button"
@@ -316,11 +318,11 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
         <slot name="previous-icon">
           <Icon :icon="previousIcon" class="pagination-button-icon" />
         </slot>
-      </NuxtLink>
+      </Link>
 
       <!-- Next -->
-      <NuxtLink
-        :to="paginatedLink(currentPage + 1)"
+      <Link
+        :href="paginatedLink(currentPage + 1)"
         tabindex="0"
         class="nui-pagination-button"
         :class="props.classes?.button"
@@ -330,7 +332,7 @@ const handleLinkClick = (e: MouseEvent, page = 1) => {
         <slot name="next-icon">
           <Icon :icon="nextIcon" class="pagination-button-icon" />
         </slot>
-      </NuxtLink>
+      </Link>
       <slot name="after-navigation"></slot>
     </BaseFocusLoop>
   </div>

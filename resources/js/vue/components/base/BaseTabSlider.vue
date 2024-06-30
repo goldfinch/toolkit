@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNuiDefaultProperty } from "../../composables/default-property";
-import { computed } from "@rootnode/vue";
+import { computed, onBeforeMount } from "@rootnode/vue";
 const props = withDefaults(
   defineProps<{
     /**

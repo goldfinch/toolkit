@@ -1,7 +1,13 @@
 <script setup lang="ts" generic="T extends unknown = string">
-import { useNuiDefaultProperty } from "../../composables/default-property";
 import { Icon } from "@rootnode/@iconify/vue";
-import { Float, FloatContent, FloatReference } from "@rootnode/@headlessui-float/vue";
+import { useNuiDefaultProperty } from "../../composables/default-property";
+import BaseAutocompleteItem from "../form/BaseAutocompleteItem.vue";
+import {
+  Float,
+  FloatContent,
+  FloatReference,
+} from "@rootnode/@headlessui-float/vue";
+import { refDebounced } from "@vueuse/core";
 import {
   Combobox,
   ComboboxButton,
@@ -10,7 +16,14 @@ import {
   ComboboxOption,
   ComboboxOptions,
 } from "@rootnode/@headlessui/vue";
-import { ref, watch, computed, shallowRef, refDebounced } from "@rootnode/vue";
+import {
+  ref,
+  watch,
+  computed,
+  shallowRef,
+  reactive,
+  provide,
+} from "@rootnode/vue";
 
 import BasePlaceload from "../base/BasePlaceload.vue";
 import BaseInputHelpText from "../form/BaseInputHelpText.vue";
@@ -764,7 +777,7 @@ const internal = ref<any>(modelValue);
               v-bind="{ query, filteredItems, pending, items }"
             >
               <span class="nui-autocomplete-results-placeholder-text text-sm">
-                {{ i18n.pending }}
+                {{ i18n && i18n.pending ? i18n.pending : "Loading ..." }}
               </span>
             </slot>
           </div>
@@ -777,7 +790,7 @@ const internal = ref<any>(modelValue);
               v-bind="{ query, filteredItems, pending, items }"
             >
               <span class="nui-autocomplete-results-placeholder-text text-sm">
-                {{ i18n.empty }}
+                {{ i18n && i18n.empty ? i18n.empty : "Nothing found." }}
               </span>
             </slot>
           </div>
