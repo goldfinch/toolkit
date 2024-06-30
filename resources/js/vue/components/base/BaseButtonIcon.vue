@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useNuiDefaultProperty } from "../../composables/default-property";
 // import type { RouteLocationRaw } from "vue-router";
+import { useNinjaButton } from "../../composables/buttons";
 import { computed } from "@rootnode/vue";
 
 import BasePlaceload from "../base/BasePlaceload.vue";

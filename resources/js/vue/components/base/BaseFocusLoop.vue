@@ -2,7 +2,14 @@
 import type { PropType, DefineComponent } from "@rootnode/vue";
 import type { KeyFilter } from "@vueuse/core";
 import { onKeyStroke } from "@vueuse/core";
-import { ref } from "@rootnode/vue";
+import {
+  ref,
+  defineComponent,
+  onUpdated,
+  onMounted,
+  onBeforeUnmount,
+  h,
+} from "@rootnode/vue";
 
 export default defineComponent({
   props: {

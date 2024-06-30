@@ -2,6 +2,10 @@
 import { useNuiDefaultProperty } from "../../composables/default-property";
 import { ref } from "@rootnode/vue";
 import BaseHeading from "../base/BaseHeading.vue";
+import BaseParagraph from "../base/BaseParagraph.vue";
+import BaseFocusLoop from "../base/BaseFocusLoop.vue";
+import IconChevronDown from "../icon/IconChevronDown.vue";
+import IconPlus from "../icon/IconPlus.vue";
 const props = withDefaults(
   defineProps<{
     /**
@@ -269,7 +273,7 @@ const toggle = (key: number) => {
               :index="key"
               :toggle="toggle"
             >
-              <BaseParagraph size="sm" lead="tight">
+              <BaseParagraph size="sm" lead="tight" as="p" weight="normal">
                 {{ item.content }}
               </BaseParagraph>
             </slot>
