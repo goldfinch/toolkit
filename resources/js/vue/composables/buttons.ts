@@ -1,5 +1,6 @@
 // import type { RouteLocationRaw } from 'vue-router'
 import { computed } from "@rootnode/vue";
+import { Link } from '@inertiajs/vue3'
 
 export interface BaseButtonProperties {
   type?: 'button' | 'submit' | 'reset'
@@ -22,7 +23,7 @@ export const useNinjaButton = (
 
   const is = computed(() =>
     // properties.to ? NuxtLink : properties.href ? 'a' : 'button',
-    properties.href ? 'a' : 'button',
+    properties.href ? Link : 'button',
   )
   const type = computed(() => {
     if (is.value === 'button') {

@@ -133,7 +133,7 @@ const props = withDefaults(
     error: false,
     textValue: undefined,
     classes: () => ({}),
-  }
+  },
 );
 
 const [modelValue] = defineModel<FileList | null>();
@@ -147,16 +147,18 @@ const inputRef = ref<HTMLInputElement>();
 const id = useNinjaId(() => props.id);
 
 const defaultTextValue = (fileList?: FileList | null) => {
-  if (!fileList?.item?.length) {
-    return i18n.value.empty;
+  if (i18n && !fileList?.item?.length) {
+    return i18n.value?.empty;
   }
 
   return fileList?.item.length === 1
     ? fileList.item(0)?.name ?? i18n.value.invalid
-    : i18n.value.multiple.replaceAll(
-        "{count}",
-        String(fileList?.item?.length ?? 0)
-      );
+    : i18n
+      ? i18n.value.multiple.replaceAll(
+          "{count}",
+          String(fileList?.item?.length ?? 0),
+        )
+      : null;
 };
 
 const radiuses = {
