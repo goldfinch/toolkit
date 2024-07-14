@@ -1,6 +1,6 @@
 // import type { RouteLocationRaw } from 'vue-router'
 import { computed } from "@rootnode/vue";
-import { Link } from '@inertiajs/vue3'
+import { Link } from '@rootnode/@inertiajs/vue3'
 
 export interface BaseButtonProperties {
   type?: 'button' | 'submit' | 'reset'
