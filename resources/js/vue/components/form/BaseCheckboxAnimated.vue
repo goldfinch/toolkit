@@ -152,20 +152,20 @@ watchEffect(() => {
     isChecked.value = true;
     isOpaque.value = true;
 
-    if (import.meta.browser) {
-      timeout = setTimeout(() => {
-        isUnchecked.value = false;
-      }, 150);
-    }
+    // if (import.meta.browser) {
+    timeout = setTimeout(() => {
+      isUnchecked.value = false;
+    }, 150);
+    // }
   } else {
     isUnchecked.value = true;
     isChecked.value = false;
 
-    if (import.meta.browser) {
-      timeout = setTimeout(() => {
-        isOpaque.value = false;
-      }, 150);
-    }
+    // if (import.meta.browser) {
+    timeout = setTimeout(() => {
+      isOpaque.value = false;
+    }, 150);
+    // }
   }
 
   onScopeDispose(() => {

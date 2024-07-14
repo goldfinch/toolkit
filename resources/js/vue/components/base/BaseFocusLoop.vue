@@ -69,7 +69,8 @@ export default defineComponent({
     }
 
     function checkFocusables() {
-      if (import.meta.browser && wrapper.value) {
+      if (wrapper.value) {
+        // import.meta.browser &&
         const treeWalker = document.createTreeWalker(
           wrapper.value,
           NodeFilter.SHOW_ELEMENT,

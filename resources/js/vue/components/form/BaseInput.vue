@@ -205,15 +205,15 @@ const placeholder = computed(() => {
   return props.placeholder;
 });
 
-if (import.meta.dev) {
-  const slots = useSlots();
-  if (props.labelFloat && "label" in slots) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      '[ninja-ui][base-input] The "label-float" property is not compatible with the label slot, use the label property instead.'
-    );
-  }
-}
+// if (import.meta.dev) {
+//   const slots = useSlots();
+//   if (props.labelFloat && "label" in slots) {
+//     // eslint-disable-next-line no-console
+//     console.warn(
+//       '[ninja-ui][base-input] The "label-float" property is not compatible with the label slot, use the label property instead.'
+//     );
+//   }
+// }
 </script>
 
 <template>
