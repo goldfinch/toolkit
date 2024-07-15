@@ -130,7 +130,7 @@ const props = withDefaults(
     placeholder: undefined,
     error: false,
     classes: () => ({}),
-  }
+  },
 );
 
 function looseToNumber(val: any) {
