@@ -123,7 +123,7 @@ const props = withDefaults(
     }),
     parent: undefined,
     level: 1,
-  },
+  }
 );
 
 const [modelValue] = defineModel<any[]>();
@@ -172,11 +172,11 @@ const checkboxClasses = computed(() => {
 const treeState = useTreeState();
 
 const subtreeState = computed(() =>
-  props.children ? treeState?.treeMap.get(props.children) : undefined,
+  props.children ? treeState?.treeMap.get(props.children) : undefined
 );
 const openMap = ref<Record<number, boolean>>(getDefaultOpenMap(props.children));
 const _children = computed<TreeViewItemNode[] | undefined>(
-  () => subtreeState.value?.tree,
+  () => subtreeState.value?.tree
 );
 watch(() => props.children, initChildren, {
   immediate: true,
@@ -331,8 +331,8 @@ function getChildren(tree?: TreeViewTreeSource) {
   return treeState?.treeMap.has(tree)
     ? treeState?.treeMap.get(tree)?.tree
     : Array.isArray(tree)
-      ? tree
-      : undefined;
+    ? tree
+    : undefined;
 }
 
 function getNodeChildren(node?: TreeViewItemNode) {
@@ -628,6 +628,7 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
           >
             <button
               v-if="'children' in child"
+              type="button"
               class="text-muted-400 nui-focus me-1 flex size-5 items-center justify-center rounded"
               @click="openMap[index] = !openMap[index]"
             >
@@ -735,7 +736,11 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
                 open: openMap[index],
               }"
             >
-              <span>{{ child.item }}</span>
+              <span
+                class="cursor-pointer"
+                @click="(event: Event) => toggleNodeSelection(child, event)"
+                >{{ child.item }}</span
+              >
             </slot>
           </div>
         </slot>
