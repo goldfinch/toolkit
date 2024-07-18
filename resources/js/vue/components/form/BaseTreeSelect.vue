@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { watch, computed, ref } from "@rootnode/vue";
 import { Icon } from "@rootnode/@iconify/vue";
-
+import { inject, reactive, provide } from "@rootnode/vue";
 interface TreeViewItemTreeLeaf {
   item: any;
 }
@@ -123,7 +123,7 @@ const props = withDefaults(
     }),
     parent: undefined,
     level: 1,
-  }
+  },
 );
 
 const [modelValue] = defineModel<any[]>();
@@ -172,11 +172,11 @@ const checkboxClasses = computed(() => {
 const treeState = useTreeState();
 
 const subtreeState = computed(() =>
-  props.children ? treeState?.treeMap.get(props.children) : undefined
+  props.children ? treeState?.treeMap.get(props.children) : undefined,
 );
 const openMap = ref<Record<number, boolean>>(getDefaultOpenMap(props.children));
 const _children = computed<TreeViewItemNode[] | undefined>(
-  () => subtreeState.value?.tree
+  () => subtreeState.value?.tree,
 );
 watch(() => props.children, initChildren, {
   immediate: true,
@@ -331,8 +331,8 @@ function getChildren(tree?: TreeViewTreeSource) {
   return treeState?.treeMap.has(tree)
     ? treeState?.treeMap.get(tree)?.tree
     : Array.isArray(tree)
-    ? tree
-    : undefined;
+      ? tree
+      : undefined;
 }
 
 function getNodeChildren(node?: TreeViewItemNode) {
@@ -654,10 +654,10 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
                 parent,
                 toggle: (event?: Event) => {
                   if ('children' in child) {
-                    openMap[index] = !openMap[index]
-                    return
+                    openMap[index] = !openMap[index];
+                    return;
                   }
-                  toggleNodeSelection(child, event)
+                  toggleNodeSelection(child, event);
                 },
                 open: openMap[index],
               }"
@@ -683,10 +683,10 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
                 parent,
                 toggle: (event?: Event) => {
                   if ('children' in child) {
-                    openMap[index] = !openMap[index]
-                    return
+                    openMap[index] = !openMap[index];
+                    return;
                   }
-                  toggleNodeSelection(child, event)
+                  toggleNodeSelection(child, event);
                 },
                 open: openMap[index],
               }"
@@ -727,10 +727,10 @@ function toggleChildrenSelection(tree?: TreeViewItemNode[], event?: Event) {
                 parent,
                 toggle: (event?: Event) => {
                   if ('children' in child) {
-                    openMap[index] = !openMap[index]
-                    return
+                    openMap[index] = !openMap[index];
+                    return;
                   }
-                  toggleNodeSelection(child, event)
+                  toggleNodeSelection(child, event);
                 },
                 open: openMap[index],
               }"
