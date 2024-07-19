@@ -1,5 +1,5 @@
-import { type App, type VNode, h, render } from 'vue'
-import { defu } from 'defu'
+import { type App, type VNode, h, render } from '@rootnode/vue'
+import { defu } from '@rootnode/defu'
 
 import type {
   ComponentProps,
@@ -82,8 +82,8 @@ export function createNinjaToaster(
     const app = useNuxtApp().vueApp
     const userProps =
       typeof options === 'string' ||
-      typeof options === 'number' ||
-      typeof options === 'function'
+        typeof options === 'number' ||
+        typeof options === 'function'
         ? { content: options }
         : options
 
@@ -114,7 +114,7 @@ export function createNinjaToaster(
       if (process.server) {
         resolve({
           el: null,
-          close: () => {}
+          close: () => { }
         })
       }
     })

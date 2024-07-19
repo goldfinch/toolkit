@@ -1,6 +1,6 @@
-import type { InjectionKey } from 'vue'
-import { computed, inject, provide, ref } from 'vue'
-import { tryOnBeforeUnmount, tryOnMounted } from '@vueuse/core'
+import type { InjectionKey } from '@rootnode/vue'
+import { computed, inject, provide, ref } from '@rootnode/vue'
+import { tryOnBeforeUnmount, tryOnMounted } from '@rootnode/@vueuse/core'
 
 import type { NinjaToasterState } from '../../types'
 

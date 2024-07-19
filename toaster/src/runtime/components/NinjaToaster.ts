@@ -1,4 +1,4 @@
-import type { PropType } from 'vue'
+import type { PropType } from '@rootnode/vue'
 import {
   Suspense,
   Transition,
@@ -10,8 +10,8 @@ import {
   ref,
   vShow,
   withDirectives
-} from 'vue'
-import { defu } from 'defu'
+} from '@rootnode/vue'
+import { defu } from '@rootnode/defu'
 
 import type { NinjaToastEventBus } from '../events'
 import type { NinjaToasterProps } from '../../types'

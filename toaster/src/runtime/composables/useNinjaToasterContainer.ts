@@ -1,6 +1,6 @@
-import { computed, ref } from 'vue'
-import type { MaybeRefOrGetter } from '@vueuse/core'
-import { toRef, tryOnBeforeMount } from '@vueuse/core'
+import { computed, ref } from '@rootnode/vue'
+import type { MaybeRefOrGetter } from '@rootnode/@vueuse/core'
+import { toRef, tryOnBeforeMount } from '@rootnode/@vueuse/core'
 
 import type { NinjaToasterTheme } from '../../types'
 

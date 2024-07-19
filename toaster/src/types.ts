@@ -4,7 +4,7 @@ import type {
   Ref,
   TransitionProps,
   VNode
-} from 'vue'
+} from @rootnode / vue'
 
 export interface ModuleOptions {
   installPlugin?: boolean
@@ -60,13 +60,13 @@ export type DefaultProps = InstanceType<DefineComponent>['$props']
 
 export type ComponentProps<T> = T extends keyof typeof import('#components')
   ? Omit<
-      InstanceType<typeof import('#components')[T]>['$props'],
-      keyof DefaultProps
-    >
+    InstanceType<typeof import('#components')[T]>['$props'],
+    keyof DefaultProps
+  >
   : undefined
 
 export interface NinjaToasterInstance {
-  showComponent: <T extends keyof typeof import('#components')>(
+  showComponent: <T extends keyof typeof import('#components') >(
     name: T,
     params: {
       props?: ComponentProps<T>

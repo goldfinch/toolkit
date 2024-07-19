@@ -1,5 +1,5 @@
-import { ref } from 'vue'
-import { tryOnBeforeUnmount } from '@vueuse/core'
+import { ref } from '@rootnode/vue'
+import { tryOnBeforeUnmount } from '@rootnode/@vueuse/core'
 import type { NinjaPausableTimeout } from '../../types'
 
 export function useNinjaPausableTimeout(
