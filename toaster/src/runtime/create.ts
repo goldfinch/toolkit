@@ -1,5 +1,6 @@
 import { type App, type VNode, h, render } from '@rootnode/vue'
 import { defu } from '@rootnode/defu'
+import { useAppConfig } from '../config'
 
 import type {
   ComponentProps,
@@ -12,13 +13,15 @@ import type {
 import type { NinjaToasterRenderQueue } from './queue'
 import { type NinjaToastEventBus, createEventBus } from './events'
 import NinjaToaster from './components/NinjaToaster'
+import Toaster from '../Toaster.vue'
 
-import { resolveComponent, useAppConfig, useNuxtApp } from '#imports'
+// import { resolveComponent, useAppConfig, useNuxtApp } from '#imports'
 
 function createElement() {
-  if (process.server) {
-    return null
-  }
+  // * nuxt
+  // if (process.server) {
+  //   return null
+  // }
 
   return document.createElement('div')
 }
@@ -58,7 +61,8 @@ export function createNinjaToaster(
   const events = createEventBus()
   const queues: Map<string, NinjaToasterRenderQueue> = new Map()
 
-  function showComponent<T extends keyof typeof import('#components')>(
+  function showComponent(
+  // function showComponent<T extends keyof typeof import('#components')>(
     name: T,
     {
       props,
@@ -70,7 +74,8 @@ export function createNinjaToaster(
       options?: Omit<NinjaToasterProps, 'content'>
     }
   ) {
-    const content = () => h(resolveComponent(name), props, children)
+    const content = () => h(Toaster, props, children)
+    // const content = () => h(resolveComponent(name), props, children)
     return show({
       ...options,
       content
@@ -79,11 +84,11 @@ export function createNinjaToaster(
 
   function show(options: NinjaToasterProps | string | number | (() => VNode)) {
     const appConfigProps = useAppConfig()?.toaster as NinjaToasterBaseProps
-    const app = useNuxtApp().vueApp
+    // const app = useNuxtApp().vueApp
     const userProps =
       typeof options === 'string' ||
-        typeof options === 'number' ||
-        typeof options === 'function'
+      typeof options === 'number' ||
+      typeof options === 'function'
         ? { content: options }
         : options
 
@@ -111,12 +116,13 @@ export function createNinjaToaster(
         }
       })
 
-      if (process.server) {
-        resolve({
-          el: null,
-          close: () => { }
-        })
-      }
+      // * nuxt
+      // if (process.server) {
+      //   resolve({
+      //     el: null,
+      //     close: () => {}
+      //   })
+      // }
     })
   }
 

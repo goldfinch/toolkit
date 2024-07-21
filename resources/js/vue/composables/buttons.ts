@@ -23,7 +23,7 @@ export const useNinjaButton = (
 
   const is = computed(() =>
     // properties.to ? NuxtLink : properties.href ? 'a' : 'button',
-    properties.href ? Link : 'button',
+    properties.href && properties.href.startsWith(window.location.origin) ? Link : (properties.href ? 'a' : 'button'),
   )
   const type = computed(() => {
     if (is.value === 'button') {

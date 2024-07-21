@@ -48,7 +48,8 @@ const isDark = computed({
       document.documentElement.classList.add("nui-no-transition");
     }
 
-    colorMode.preference = value ? "dark" : "light";
+    colorMode.value = value ? "dark" : "light";
+    // colorMode.preference = value ? "dark" : "light";
 
     // re-enable transitions
     if (disableTransitions.value) {
