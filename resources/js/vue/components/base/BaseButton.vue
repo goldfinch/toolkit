@@ -81,6 +81,11 @@ const props = withDefaults(
      * @default 'solid'
      */
     variant?: "solid" | "outline" | "pastel";
+
+    /**
+     * Open plain link using `a` tag
+     */
+    plain?: boolean;
   }>(),
   {
     to: undefined,
